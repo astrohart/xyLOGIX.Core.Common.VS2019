@@ -1,9 +1,8 @@
-﻿using Core.Common.Params.Interfaces;
-using PostSharp.Patterns.Diagnostics;
+﻿using PostSharp.Patterns.Diagnostics;
 using System;
 using System.Linq;
 
-namespace Core.Common.Params.Factories
+namespace xyLOGIX.Core.Common.Params.Factories
 {
     /// <summary>
     /// Creates new instances of objects that implement the

@@ -1,9 +1,8 @@
 ﻿using Alphaleonis.Win32.Filesystem;
-using Core.Common.Interfaces;
 using System;
 using System.Diagnostics;
 
-namespace Core.Common
+namespace xyLOGIX.Core.Common
 {
     /// <summary> Methods and properties to encapsulate the execution of actions. </summary>
     public class Run : ISystem
@@ -15,10 +14,11 @@ namespace Core.Common
         static Run() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
-        protected Run() { }
+        protected Run()
+        { }
 
         /// Gets a reference to the one and only instance of
-        /// <see cref="T:Core.Common.Run" />
+        /// <see cref="T:xyLOGIX.Core.Common.Run" />
         /// .
         public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 

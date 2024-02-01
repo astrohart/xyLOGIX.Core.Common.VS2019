@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Core.Common
+namespace xyLOGIX.Core.Common
 {
     /// <summary> Exposes static methods to perform actions. </summary>
     public static class Do

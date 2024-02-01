@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Core.Common.Params.Interfaces
+namespace xyLOGIX.Core.Common.Params.Interfaces
 {
     /// <summary>
     /// Defines the publicly-exposed methods and properties of a POCO that
@@ -17,8 +17,10 @@ namespace Core.Common.Params.Interfaces
         /// </summary>
         Delegate Action
         {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
+            [DebuggerStepThrough]
+            get;
+            [DebuggerStepThrough]
+            set;
         }
 
         /// Gets or sets an array of objects to be passed to the
@@ -26,8 +28,10 @@ namespace Core.Common.Params.Interfaces
         /// property.
         IEnumerable<object> Arguments
         {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
+            [DebuggerStepThrough]
+            get;
+            [DebuggerStepThrough]
+            set;
         }
 
         /// Invokes the
@@ -35,7 +39,7 @@ namespace Core.Common.Params.Interfaces
         /// instance that is referenced by the
         /// <returns>
         /// Any data that was returned by the
-        /// <see cref="P:Core.Common.Params.Interfaces.IActionParams.Action" />.
+        /// <see cref="P:xyLOGIX.Core.Common.Params.Interfaces.IActionParams.Action" />.
         /// </returns>
         object Invoke();
     }

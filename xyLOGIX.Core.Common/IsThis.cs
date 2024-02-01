@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Net;
 
-namespace Core.Common
+namespace xyLOGIX.Core.Common
 {
     /// <summary> Methods to decide whether certain facts are true. </summary>
     public class IsThis
@@ -14,10 +14,11 @@ namespace Core.Common
         static IsThis() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
-        protected IsThis() { }
+        protected IsThis()
+        { }
 
         /// Gets a reference to the one and only instance of
-        /// <see cref="T:Core.Common.IsThis" />
+        /// <see cref="T:xyLOGIX.Core.Common.IsThis" />
         /// .
         public static IsThis Machine { [DebuggerStepThrough] get; } = new();
 
