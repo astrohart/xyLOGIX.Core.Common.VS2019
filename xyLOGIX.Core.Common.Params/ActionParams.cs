@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using xyLOGIX.Core.Common.Params.Interfaces;
 
 namespace xyLOGIX.Core.Common.Params
 {

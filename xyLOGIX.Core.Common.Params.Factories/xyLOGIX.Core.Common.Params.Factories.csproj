@@ -148,6 +148,16 @@
     <None Include="key.snk" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\xyLOGIX.Core.Common.Params.Interfaces\xyLOGIX.Core.Common.Params.Interfaces.csproj">
+      <Project>{DFBE29E2-0326-4D4A-9F3F-E0CC0BC1AC9E}</Project>
+      <Name>xyLOGIX.Core.Common.Params.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xyLOGIX.Core.Common.Params\xyLOGIX.Core.Common.Params.csproj">
+      <Project>{7DF17B38-570D-4BEC-8871-C688F4F276FF}</Project>
+      <Name>xyLOGIX.Core.Common.Params</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>SET "_PROJECT_DIR=$(ProjectDir.TrimEnd('\'))"

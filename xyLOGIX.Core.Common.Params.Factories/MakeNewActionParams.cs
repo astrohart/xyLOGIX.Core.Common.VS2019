@@ -1,6 +1,7 @@
 ﻿using PostSharp.Patterns.Diagnostics;
 using System;
 using System.Linq;
+using xyLOGIX.Core.Common.Params.Interfaces;
 
 namespace xyLOGIX.Core.Common.Params.Factories
 {

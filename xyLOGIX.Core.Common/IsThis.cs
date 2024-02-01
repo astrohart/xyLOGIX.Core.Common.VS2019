@@ -20,7 +20,8 @@ namespace xyLOGIX.Core.Common
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.IsThis" />
         /// .
-        public static IsThis Machine { [DebuggerStepThrough] get; } = new();
+        public static IsThis Machine { [DebuggerStepThrough] get; } =
+            new IsThis();
 
         /// Determines whether this computer is connected to the Internet.
         /// <param name="url">
