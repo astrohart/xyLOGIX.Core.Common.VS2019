@@ -14,8 +14,7 @@ namespace xyLOGIX.Core.Common
         static IsThis() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
-        protected IsThis()
-        { }
+        protected IsThis() { }
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.IsThis" />

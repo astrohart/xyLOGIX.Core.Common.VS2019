@@ -5,16 +5,21 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("xyLOGIX.Core.Common.Params.Interfaces")]
-[assembly: AssemblyDescription("Provides objects and functionality to host parameter objects used in delegates defined in the xyLOGIX.Core.Common module.  This particular library holds the C# interfaces for this component.")]
+[assembly:
+    AssemblyDescription(
+        "Provides objects and functionality to host parameter objects used in delegates defined in the xyLOGIX.Core.Common module.  This particular library holds the C# interfaces for this component."
+    )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("xyLOGIX, LLC")]
 [assembly: AssemblyProduct("xyLOGIX Common Core Parameter Objects")]
 [assembly:
     AssemblyCopyright(
-        "Copyright © 2024 by xyLOGIX, LLC.  All rights reserved.")]
+        "Copyright © 2024 by xyLOGIX, LLC.  All rights reserved."
+    )]
 [assembly:
     AssemblyTrademark(
-        "This software is a component of xyLOGIX Common Core Parameter Objects.  xyLOGIX Common Core Parameter Objects is a trademark of xyLOGIX, LLC.  All rights reserved, especially those granted by international treaties.")]
+        "This software is a component of xyLOGIX Common Core Parameter Objects.  xyLOGIX Common Core Parameter Objects is a trademark of xyLOGIX, LLC.  All rights reserved, especially those granted by international treaties."
+    )]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

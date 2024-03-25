@@ -15,8 +15,7 @@ namespace xyLOGIX.Core.Common
         static Run() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
-        protected Run()
-        { }
+        protected Run() { }
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.Run" />

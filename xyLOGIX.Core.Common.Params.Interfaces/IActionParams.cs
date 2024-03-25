@@ -17,10 +17,8 @@ namespace xyLOGIX.Core.Common.Params.Interfaces
         /// </summary>
         Delegate Action
         {
-            [DebuggerStepThrough]
-            get;
-            [DebuggerStepThrough]
-            set;
+            [DebuggerStepThrough] get;
+            [DebuggerStepThrough] set;
         }
 
         /// Gets or sets an array of objects to be passed to the
@@ -28,10 +26,8 @@ namespace xyLOGIX.Core.Common.Params.Interfaces
         /// property.
         IEnumerable<object> Arguments
         {
-            [DebuggerStepThrough]
-            get;
-            [DebuggerStepThrough]
-            set;
+            [DebuggerStepThrough] get;
+            [DebuggerStepThrough] set;
         }
 
         /// Invokes the

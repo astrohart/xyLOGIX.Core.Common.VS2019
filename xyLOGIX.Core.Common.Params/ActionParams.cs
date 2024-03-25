@@ -14,7 +14,8 @@ namespace xyLOGIX.Core.Common.Params
     {
         /// <summary>
         /// Constructs a new instance of
-        /// <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> and returns a reference to it.
+        /// <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> and returns a
+        /// reference to it.
         /// </summary>
         public ActionParams()
         {
@@ -24,7 +25,8 @@ namespace xyLOGIX.Core.Common.Params
 
         /// <summary>
         /// Constructs a new instance of
-        /// <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> and returns a reference to it.
+        /// <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> and returns a
+        /// reference to it.
         /// </summary>
         /// <param name="action">
         /// (Required.) A <see cref="T:System.Delegate" /> that
@@ -51,10 +53,8 @@ namespace xyLOGIX.Core.Common.Params
         /// </summary>
         public Delegate Action
         {
-            [DebuggerStepThrough]
-            get;
-            [DebuggerStepThrough]
-            set;
+            [DebuggerStepThrough] get;
+            [DebuggerStepThrough] set;
         }
 
         /// <summary>
@@ -63,10 +63,8 @@ namespace xyLOGIX.Core.Common.Params
         /// </summary>
         public IEnumerable<object> Arguments
         {
-            [DebuggerStepThrough]
-            get;
-            [DebuggerStepThrough]
-            set;
+            [DebuggerStepThrough] get;
+            [DebuggerStepThrough] set;
         }
 
         /// Invokes the
