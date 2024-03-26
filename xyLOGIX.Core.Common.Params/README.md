@@ -31,7 +31,8 @@ arguments.
 ##### Summary
 
 Constructs a new instance of
-[ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') and returns a reference to it.
+[ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') and returns a
+reference to it.
 
 ##### Parameters
 
@@ -43,7 +44,8 @@ This constructor has no parameters.
 ##### Summary
 
 Constructs a new instance of
-[ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') and returns a reference to it.
+[ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') and returns a
+reference to it.
 
 ##### Parameters
 
