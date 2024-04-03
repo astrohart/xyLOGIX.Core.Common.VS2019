@@ -20,7 +20,7 @@ namespace xyLOGIX.Core.Common
         /// <see cref="T:xyLOGIX.Core.Common.IsThis" />
         /// .
         public static IsThis Machine { [DebuggerStepThrough] get; } =
-            new IsThis();
+            new();
 
         /// Determines whether this computer is connected to the Internet.
         /// <param name="url">
