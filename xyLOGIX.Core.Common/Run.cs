@@ -48,20 +48,22 @@ namespace xyLOGIX.Core.Common
             if (string.IsNullOrWhiteSpace(command))
                 return; // nothing to run
 
-            using var cmd = new Process();
-            cmd.StartInfo.FileName =
-                Environment.ExpandEnvironmentVariables("%COMSPEC%");
-            cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.UseShellExecute = false;
-            cmd.StartInfo.Arguments = $"/C {command}";
-            cmd.StartInfo.WorkingDirectory =
-                string.IsNullOrWhiteSpace(workingDirectory) ||
-                !Directory.Exists(workingDirectory)
-                    ? Directory.GetCurrentDirectory()
-                    : workingDirectory;
-            if (!cmd.Start()) return;
-            cmd.WaitForExit();
+            using (var cmd = new Process())
+            {
+                cmd.StartInfo.FileName =
+                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.StartInfo.Arguments = $"/C {command}";
+                cmd.StartInfo.WorkingDirectory =
+                    string.IsNullOrWhiteSpace(workingDirectory) ||
+                    !Directory.Exists(workingDirectory)
+                        ? Directory.GetCurrentDirectory()
+                        : workingDirectory;
+                if (!cmd.Start()) return;
+                cmd.WaitForExit();
+            }
         }
     }
 }
