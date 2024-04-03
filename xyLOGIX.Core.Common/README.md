@@ -11,7 +11,7 @@
   - [#ctor()](#M-xyLOGIX-Core-Common-IsThis-#ctor 'xyLOGIX.Core.Common.IsThis.#ctor')
   - [Machine](#P-xyLOGIX-Core-Common-IsThis-Machine 'xyLOGIX.Core.Common.IsThis.Machine')
   - [#cctor()](#M-xyLOGIX-Core-Common-IsThis-#cctor 'xyLOGIX.Core.Common.IsThis.#cctor')
-  - [ConnectedToTheInternet(url)](#M-xyLOGIX-Core-Common-IsThis-ConnectedToTheInternet-System-String- 'xyLOGIX.Core.Common.IsThis.ConnectedToTheInternet(System.String)')
+  - [ConnectedToTheInternet()](#M-xyLOGIX-Core-Common-IsThis-ConnectedToTheInternet 'xyLOGIX.Core.Common.IsThis.ConnectedToTheInternet')
 - [Resources](#T-xyLOGIX-Core-Common-Properties-Resources 'xyLOGIX.Core.Common.Properties.Resources')
   - [Culture](#P-xyLOGIX-Core-Common-Properties-Resources-Culture 'xyLOGIX.Core.Common.Properties.Resources.Culture')
   - [ResourceManager](#P-xyLOGIX-Core-Common-Properties-Resources-ResourceManager 'xyLOGIX.Core.Common.Properties.Resources.ResourceManager')
@@ -102,8 +102,8 @@ class.
 
 This method has no parameters.
 
-<a name='M-xyLOGIX-Core-Common-IsThis-ConnectedToTheInternet-System-String-'></a>
-### ConnectedToTheInternet(url) `method`
+<a name='M-xyLOGIX-Core-Common-IsThis-ConnectedToTheInternet'></a>
+### ConnectedToTheInternet() `method`
 
 ##### Returns
 
@@ -112,13 +112,7 @@ This method has no parameters.
 
 ##### Parameters
 
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| url | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Optional.) Specific URL to check that is accessible.
-
-
-
-Otherwise, we use default websites. |
+This method has no parameters.
 
 <a name='T-xyLOGIX-Core-Common-Properties-Resources'></a>
 ## Resources `type`
