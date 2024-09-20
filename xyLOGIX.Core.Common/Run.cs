@@ -1,4 +1,5 @@
 using Alphaleonis.Win32.Filesystem;
+using PostSharp.Patterns.Diagnostics;
 using System;
 using System.Diagnostics;
 using xyLOGIX.Core.Common.Interfaces;
@@ -12,9 +13,11 @@ namespace xyLOGIX.Core.Common
         /// Empty, static constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
+        [Log(AttributeExclude = true)]
         static Run() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
+        [Log(AttributeExclude = true)]
         protected Run() { }
 
         /// Gets a reference to the one and only instance of
