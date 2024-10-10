@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using xyLOGIX.Core.Common.Params.Factories;
 using xyLOGIX.Core.Common.Params.Interfaces;
