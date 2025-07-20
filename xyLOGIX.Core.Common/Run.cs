@@ -22,18 +22,19 @@ namespace xyLOGIX.Core.Common
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        protected Run() { }
+        protected Run()
+        { }
+
+        /// Gets a reference to the one and only instance of
+        /// <see cref="T:xyLOGIX.Core.Common.Run" />
+        /// .
+        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
         /// <summary>
         /// Gets a reference to an instance of an object that is to be used for thread
         /// synchronization purposes.
         /// </summary>
         private static object SyncRoot { get; } = new object();
-
-        /// Gets a reference to the one and only instance of
-        /// <see cref="T:xyLOGIX.Core.Common.Run" />
-        /// .
-        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
         /// Runs the specified system
         /// <paramref name="command" />
@@ -334,7 +335,6 @@ namespace xyLOGIX.Core.Common
             {
                 // dump all the exception info to the log
                 DebugUtils.LogException(ex);
-
 
                 result = Directory.GetCurrentDirectory()
                                   .RemoveTrailingBackslashes();
