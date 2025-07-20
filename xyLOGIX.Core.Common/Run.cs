@@ -232,7 +232,6 @@ namespace xyLOGIX.Core.Common
                     : "*** ERROR *** Zero line(s) of output were obtained from spawning the child process.  Stopping..."
             );
 
-
             return result;
         }
 
