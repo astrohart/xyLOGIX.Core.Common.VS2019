@@ -148,6 +148,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\xyLOGIX.Core.Debug.VS2019\xyLOGIX.Core.Debug\xyLOGIX.Core.Debug.csproj">
+      <Project>{c445c052-26b6-4884-9a7b-25dc7abc0ded}</Project>
+      <Name>xyLOGIX.Core.Debug</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\xyLOGIX.Core.Extensions.VS2019\xyLOGIX.Core.Extensions\xyLOGIX.Core.Extensions.csproj">
+      <Project>{5528d7fb-b88b-4e9d-9bbd-b6b6b893666a}</Project>
+      <Name>xyLOGIX.Core.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\xyLOGIX.Core.Common.Interfaces\xyLOGIX.Core.Common.Interfaces.csproj">
       <Project>{341D5417-CECA-4780-843E-CEDB4AD56276}</Project>
       <Name>xyLOGIX.Core.Common.Interfaces</Name>
