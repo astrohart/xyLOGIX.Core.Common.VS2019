@@ -153,7 +153,7 @@ namespace xyLOGIX.Core.Common
 
                     proc.OutputDataReceived += (s, e) =>
                     {
-                        if (string.IsNullOrWhiteSpace(e.Data))
+                        if (e.Data == null) return;       // end-of-stream
                             lock (SyncRoot)
                             {
                                 buffer.Add(e.Data);
@@ -163,7 +163,7 @@ namespace xyLOGIX.Core.Common
                     };
                     proc.ErrorDataReceived += (s, e) =>
                     {
-                        if (e.Data == null) return;
+                        if (e.Data == null) return;        // end-of-stream
                         lock (SyncRoot)
                         {
                             buffer.Add(e.Data);
