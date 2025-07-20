@@ -1,8 +1,12 @@
 ﻿using Alphaleonis.Win32.Filesystem;
 using PostSharp.Patterns.Diagnostics;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using xyLOGIX.Core.Common.Interfaces;
+using xyLOGIX.Core.Debug;
+using xyLOGIX.Core.Extensions;
 
 namespace xyLOGIX.Core.Common
 {
@@ -19,6 +23,12 @@ namespace xyLOGIX.Core.Common
         /// Empty, protected constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
         protected Run() { }
+
+        /// <summary>
+        /// Gets a reference to an instance of an object that is to be used for thread
+        /// synchronization purposes.
+        /// </summary>
+        private static object SyncRoot { get; } = new object();
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.Run" />
@@ -67,6 +77,126 @@ namespace xyLOGIX.Core.Common
                 if (!cmd.Start()) return;
                 cmd.WaitForExit();
             }
+        }
+
+        /// <summary>
+        /// Executes a system <paramref name="command" /> and returns every line
+        /// written to <c>STDOUT</c> and <c>STDERR</c>.
+        /// </summary>
+        /// <param name="command">
+        /// (Required.) The command to run – anything you can type at <c>cmd</c>.
+        /// Environment variables are allowed.
+        /// </param>
+        /// <param name="workingDirectory">
+        /// Fully-qualified path to use as the working directory.
+        /// Falls back to <c>Directory.GetCurrentDirectory()</c> if blank or invalid.
+        /// </param>
+        /// <returns>
+        /// A read-only list of lines captured from the child process.
+        /// </returns>
+        public IReadOnlyList<string> CommandWithOutput(
+            string command,
+            string workingDirectory = ""
+        )
+        {
+            IReadOnlyList<string> result = Enumerable.Empty<string>()
+                .ToList();
+
+            try
+            {
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.CommandWithOutput *** INFO: Checking whether the value of the parameter, 'command', is blank..."
+                );
+
+                // Check whether the value of the parameter, 'command', is blank.
+                // If this is so, then emit an error message to the log file, and
+                // then terminate the execution of this method.
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    // The parameter, 'command' was either passed a null value, or it is blank.  This is not desirable.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.CommandWithOutput: The parameter, 'command', was either passed a null value, or it is blank. Stopping..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"Run.CommandWithOutput: Result = '{result.ToSetString()}'"
+                    );
+
+                    // stop.
+                    return result;
+                }
+
+                // Dump the argument of the parameter, command, to the log
+                DebugUtils.WriteLine(
+                    DebugLevel.Debug,
+                    $@"{workingDirectory.RemoveTrailingBackslashes() ?? Directory.GetCurrentDirectory().RemoveTrailingBackslashes()}\> {command}"
+                );
+
+                var buffer = new List<string>();
+
+                using (var proc = new Process())
+                {
+                    proc.StartInfo.FileName =
+                        Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                    proc.StartInfo.Arguments = $"/C {command}";
+                    proc.StartInfo.WorkingDirectory =
+                        string.IsNullOrWhiteSpace(workingDirectory) ||
+                        !Directory.Exists(workingDirectory)
+                            ? Directory.GetCurrentDirectory()
+                            : workingDirectory;
+
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.StartInfo.RedirectStandardError = true;
+
+                    proc.OutputDataReceived += (s, e) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(e.Data))
+                            lock (SyncRoot)
+                            {
+                                buffer.Add(e.Data);
+                            }
+
+                        DebugUtils.WriteLine(e.Data);
+                    };
+                    proc.ErrorDataReceived += (s, e) =>
+                    {
+                        if (e.Data == null) return;
+                        lock (SyncRoot)
+                        {
+                            buffer.Add(e.Data);
+                        }
+
+                        DebugUtils.WriteLine(e.Data);
+                    };
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"*** FYI *** Executing: {proc.StartInfo.FileName} {proc.StartInfo.Arguments}"
+                    );
+
+                    if (!proc.Start()) return result;
+
+                    proc.BeginOutputReadLine();
+                    proc.BeginErrorReadLine();
+                    proc.WaitForExit();
+                }
+
+                result = buffer.AsReadOnly();
+            }
+            catch (Exception ex)
+            {
+                DebugUtils.LogException(ex);
+                result = Enumerable.Empty<string>()
+                                   .ToList();
+            }
+
+            return result;
         }
     }
 }
