@@ -3,7 +3,6 @@ using PostSharp.Patterns.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using xyLOGIX.Core.Common.Interfaces;
 using xyLOGIX.Core.Debug;
 using xyLOGIX.Core.Extensions;
@@ -56,7 +55,10 @@ namespace xyLOGIX.Core.Common
         /// default, this method waits to return until the launched command has completed
         /// execution.
         /// </remarks>
-        public void Command(string command, string workingDirectory = "")
+        public void Command(
+            [NotLogged] string command,
+            [NotLogged] string workingDirectory = ""
+        )
         {
             if (string.IsNullOrWhiteSpace(command))
                 return; // nothing to run
@@ -94,13 +96,13 @@ namespace xyLOGIX.Core.Common
         /// <returns>
         /// A read-only list of lines captured from the child process.
         /// </returns>
+        [return: NotLogged]
         public IReadOnlyList<string> CommandWithOutput(
-            string command,
-            string workingDirectory = ""
+            [NotLogged] string command,
+            [NotLogged] string workingDirectory = ""
         )
         {
-            IReadOnlyList<string> result = Enumerable.Empty<string>()
-                .ToList();
+            IReadOnlyList<string> result = Array.Empty<string>();
 
             try
             {
