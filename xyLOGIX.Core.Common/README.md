@@ -17,9 +17,12 @@
   - [ResourceManager](#P-xyLOGIX-Core-Common-Properties-Resources-ResourceManager 'xyLOGIX.Core.Common.Properties.Resources.ResourceManager')
 - [Run](#T-xyLOGIX-Core-Common-Run 'xyLOGIX.Core.Common.Run')
   - [#ctor()](#M-xyLOGIX-Core-Common-Run-#ctor 'xyLOGIX.Core.Common.Run.#ctor')
+  - [SyncRoot](#P-xyLOGIX-Core-Common-Run-SyncRoot 'xyLOGIX.Core.Common.Run.SyncRoot')
   - [System](#P-xyLOGIX-Core-Common-Run-System 'xyLOGIX.Core.Common.Run.System')
   - [#cctor()](#M-xyLOGIX-Core-Common-Run-#cctor 'xyLOGIX.Core.Common.Run.#cctor')
   - [Command(command,workingDirectory)](#M-xyLOGIX-Core-Common-Run-Command-System-String,System-String- 'xyLOGIX.Core.Common.Run.Command(System.String,System.String)')
+  - [CommandWithOutput(command,workingDirectory)](#M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String- 'xyLOGIX.Core.Common.Run.CommandWithOutput(System.String,System.String)')
+  - [DetermineCurrentWorkingDirectory(folder)](#M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String- 'xyLOGIX.Core.Common.Run.DetermineCurrentWorkingDirectory(System.String)')
 
 <a name='T-xyLOGIX-Core-Common-Do'></a>
 ## Do `type`
@@ -158,6 +161,14 @@ Methods and properties to encapsulate the execution of actions.
 
 This constructor has no parameters.
 
+<a name='P-xyLOGIX-Core-Common-Run-SyncRoot'></a>
+### SyncRoot `property`
+
+##### Summary
+
+Gets a reference to an instance of an object that is to be used for thread
+synchronization purposes.
+
 <a name='P-xyLOGIX-Core-Common-Run-System'></a>
 ### System `property`
 
@@ -197,3 +208,62 @@ the `command` parameter, it does nothing.
 By default, no console window is displayed when the command is executed. By
 default, this method waits to return until the launched command has completed
 execution.
+
+<a name='M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String-'></a>
+### CommandWithOutput(command,workingDirectory) `method`
+
+##### Summary
+
+Executes a system `command` and returns every line
+written to `STDOUT` and `STDERR`.
+
+##### Returns
+
+A read-only list of lines captured from the child process.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) The command to run – anything you can type at `cmd`.
+Environment variables are allowed. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Fully-qualified path to use as the working directory.
+Falls back to `Directory.GetCurrentDirectory()` if blank or invalid. |
+
+<a name='M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String-'></a>
+### DetermineCurrentWorkingDirectory(folder) `method`
+
+##### Summary
+
+Determines the current working directory, optionally using a specified
+`folder`.
+
+##### Returns
+
+The effective working directory path, with trailing backslashes
+removed. If `folder` is null or empty, the current directory
+of the application is returned.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| folder | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Optional.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing
+the fully-qualified pathname of a folder to use as the working directory for
+spawning a process.
+
+
+
+If this parameter is `null`, blank, or the
+[Empty](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String.Empty 'System.String.Empty') value, the method returns the current
+directory of the application. |
+
+##### Remarks
+
+This method logs informational and error messages during its
+execution.
+
+
+
+If an exception occurs, it logs the exception details and defaults to returning
+the current directory.
