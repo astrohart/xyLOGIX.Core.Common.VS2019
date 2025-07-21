@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PostSharp.Patterns.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,10 +14,25 @@ namespace xyLOGIX.Core.Common.Params
     public class ActionParams : IActionParams
     {
         /// <summary>
+        /// Initializes static data or performs actions that need to be performed once only
+        /// for the <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is called automatically prior to the first instance being
+        /// created or before any static members are referenced.
+        /// <para />
+        /// We've decorated this constructor with the <c>[Log(AttributeExclude = true)]</c>
+        /// attribute in order to simplify the logging output.
+        /// </remarks>
+        [Log(AttributeExclude = true)]
+        static ActionParams() { }
+
+        /// <summary>
         /// Constructs a new instance of
         /// <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> and returns a
         /// reference to it.
         /// </summary>
+        [Log(AttributeExclude = true)]
         public ActionParams()
         {
             Action = null;
@@ -41,7 +57,11 @@ namespace xyLOGIX.Core.Common.Params
         /// parameter, <paramref name="action" />, is passed a <see langword="null" />
         /// value.
         /// </exception>
-        public ActionParams(Delegate action, params object[] args)
+        [Log(AttributeExclude = true)]
+        public ActionParams(
+            [NotLogged] Delegate action,
+            [NotLogged] params object[] args
+        )
         {
             Action = action ?? throw new ArgumentNullException(nameof(action));
             Arguments = !args.Any() ? Enumerable.Empty<object>() : args;
@@ -80,6 +100,7 @@ namespace xyLOGIX.Core.Common.Params
         /// <see langword="null" /> reference, then this method does nothing and returns
         /// <see langword="null" />.
         /// </remarks>
+        [return: NotLogged]
         public object Invoke()
         {
             if (Action == null)
