@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PostSharp.Patterns.Diagnostics;
+using System;
 using System.Threading;
 using xyLOGIX.Core.Common.Params.Factories;
 using xyLOGIX.Core.Common.Params.Interfaces;
@@ -17,7 +18,10 @@ namespace xyLOGIX.Core.Common
         /// points to the code that should be executed.
         /// </param>
         /// <param name="args">(Optional.) Arguments to be passed to the executed code.</param>
-        public static void UntilSucceeds(Delegate action, params object[] args)
+        public static void UntilSucceeds(
+            [NotLogged] Delegate action,
+            [NotLogged] params object[] args
+        )
         {
             if (action == null) return; // do nothing with null input
             var t = new Thread(UntilSucceedsThread);
@@ -43,7 +47,7 @@ namespace xyLOGIX.Core.Common
         /// <see langword="null" /> is returned.
         /// </returns>
         /// </summary>
-        private static IActionParams ToActionParams(this object arg)
+        private static IActionParams ToActionParams([NotLogged] this object arg)
         {
             IActionParams result = default;
             if (arg == null)
@@ -54,7 +58,7 @@ namespace xyLOGIX.Core.Common
         }
 
         /// Thread to execute the specified code until it stops throwing exceptions. (Required.) Reference to an instance of an object that interface that contains the metadata on the code to be executed.
-        private static void UntilSucceedsThread(object arg)
+        private static void UntilSucceedsThread([NotLogged] object arg)
         {
             var actionParams = arg.ToActionParams();
             if (actionParams?.Action == null) return;
