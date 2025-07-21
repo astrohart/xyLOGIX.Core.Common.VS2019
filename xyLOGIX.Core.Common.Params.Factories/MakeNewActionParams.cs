@@ -1,5 +1,6 @@
 ﻿using PostSharp.Patterns.Diagnostics;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using xyLOGIX.Core.Common.Params.Interfaces;
 
@@ -10,9 +11,24 @@ namespace xyLOGIX.Core.Common.Params.Factories
     /// <see cref="T:Core.Common.Params.Interfaces.IActionParams" /> interface, and
     /// returns references to them.
     /// </summary>
-    [Log(AttributeExclude = true)]
     public static class MakeNewActionParams
     {
+        /// <summary>
+        /// Initializes static data or performs actions that need to be performed once only
+        /// for the
+        /// <see cref="T:xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams" />
+        /// class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is called automatically prior to the first instance being
+        /// created or before any static members are referenced.
+        /// <para />
+        /// We've decorated this constructor with the <c>[Log(AttributeExclude = true)]</c>
+        /// attribute in order to simplify the logging output.
+        /// </remarks>
+        [Log(AttributeExclude = true)]
+        static MakeNewActionParams() { }
+
         /// <summary>
         /// Dynamically invokes (late-bound) the method represented by the
         /// current delegate.
@@ -32,7 +48,9 @@ namespace xyLOGIX.Core.Common.Params.Factories
         /// by the <see cref="P:Core.Common.Params.Interfaces.IActionParams.Action" />
         /// property.
         /// </returns>
-        public static object DynamicInvoke(this IActionParams self)
+        [DebuggerStepThrough]
+        [return: NotLogged]
+        public static object DynamicInvoke([NotLogged] this IActionParams self)
         {
             if (self?.Action == null) return null;
             return self.Arguments.Any()
@@ -47,7 +65,9 @@ namespace xyLOGIX.Core.Common.Params.Factories
         /// <see cref="T:System.Delegate" /> that should be invoked. Reference to the same
         /// instance of the object that called this method, for fluent use.
         /// </param>
-        public static IActionParams For(Delegate action)
+        [DebuggerStepThrough]
+        [return: NotLogged]
+        public static IActionParams For([NotLogged] Delegate action)
             => new ActionParams(action);
 
         /// <summary>
@@ -71,9 +91,11 @@ namespace xyLOGIX.Core.Common.Params.Factories
         /// Thrown if the required
         /// parameter, <paramref name="self" />, is passed a <see langword="null" /> value.
         /// </exception>
+        [DebuggerStepThrough]
+        [return: NotLogged]
         public static IActionParams WithArguments(
-            this IActionParams self,
-            object[] arguments
+            [NotLogged] this IActionParams self,
+            [NotLogged] object[] arguments
         )
         {
             if (self == null) throw new ArgumentNullException(nameof(self));
