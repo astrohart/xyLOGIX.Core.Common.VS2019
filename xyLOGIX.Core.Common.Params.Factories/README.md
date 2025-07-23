@@ -4,6 +4,7 @@
 ## Contents
 
 - [MakeNewActionParams](#T-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams')
+  - [#cctor()](#M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-#cctor 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams.#cctor')
   - [DynamicInvoke(self)](#M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-DynamicInvoke-xyLOGIX-Core-Common-Params-Interfaces-IActionParams- 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams.DynamicInvoke(xyLOGIX.Core.Common.Params.Interfaces.IActionParams)')
   - [For(action)](#M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-For-System-Delegate- 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams.For(System.Delegate)')
   - [WithArguments(self,arguments)](#M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-WithArguments-xyLOGIX-Core-Common-Params-Interfaces-IActionParams,System-Object[]- 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams.WithArguments(xyLOGIX.Core.Common.Params.Interfaces.IActionParams,System.Object[])')
@@ -23,6 +24,30 @@ xyLOGIX.Core.Common.Params.Factories
 Creates new instances of objects that implement the
 [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface, and
 returns references to them.
+
+<a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-#cctor'></a>
+### #cctor() `method`
+
+##### Summary
+
+Initializes static data or performs actions that need to be performed once only
+for the
+[MakeNewActionParams](#T-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams')
+class.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This constructor is called automatically prior to the first instance being
+created or before any static members are referenced.
+
+
+
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
 
 <a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-DynamicInvoke-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-'></a>
 ### DynamicInvoke(self) `method`
