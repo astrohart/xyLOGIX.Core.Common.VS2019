@@ -8,6 +8,7 @@
   - [#ctor(action,args)](#M-xyLOGIX-Core-Common-Params-ActionParams-#ctor-System-Delegate,System-Object[]- 'xyLOGIX.Core.Common.Params.ActionParams.#ctor(System.Delegate,System.Object[])')
   - [Action](#P-xyLOGIX-Core-Common-Params-ActionParams-Action 'xyLOGIX.Core.Common.Params.ActionParams.Action')
   - [Arguments](#P-xyLOGIX-Core-Common-Params-ActionParams-Arguments 'xyLOGIX.Core.Common.Params.ActionParams.Arguments')
+  - [#cctor()](#M-xyLOGIX-Core-Common-Params-ActionParams-#cctor 'xyLOGIX.Core.Common.Params.ActionParams.#cctor')
   - [Invoke()](#M-xyLOGIX-Core-Common-Params-ActionParams-Invoke 'xyLOGIX.Core.Common.Params.ActionParams.Invoke')
 - [Resources](#T-xyLOGIX-Core-Common-Params-Properties-Resources 'xyLOGIX.Core.Common.Params.Properties.Resources')
   - [Culture](#P-xyLOGIX-Core-Common-Params-Properties-Resources-Culture 'xyLOGIX.Core.Common.Params.Properties.Resources.Culture')
@@ -79,6 +80,28 @@ Gets or sets a reference to an instance of
 
 Gets or sets an enumerable collection of objects to be passed to the
 [Delegate](#P-Core-Common-Params-ActionParams-Delegate 'Core.Common.Params.ActionParams.Delegate') property.
+
+<a name='M-xyLOGIX-Core-Common-Params-ActionParams-#cctor'></a>
+### #cctor() `method`
+
+##### Summary
+
+Initializes static data or performs actions that need to be performed once only
+for the [ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') class.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This constructor is called automatically prior to the first instance being
+created or before any static members are referenced.
+
+
+
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
 
 <a name='M-xyLOGIX-Core-Common-Params-ActionParams-Invoke'></a>
 ### Invoke() `method`
