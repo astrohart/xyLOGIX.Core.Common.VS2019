@@ -221,7 +221,7 @@ writes to `STDOUT` or `STDERR` as soon as the line appears.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`.  
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`.
 Environment variables are allowed. |
 | workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory.  Falls back to
 [CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
