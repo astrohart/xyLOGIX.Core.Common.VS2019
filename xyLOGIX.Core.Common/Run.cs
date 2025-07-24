@@ -60,24 +60,70 @@ namespace xyLOGIX.Core.Common
             [NotLogged] string workingDirectory = ""
         )
         {
-            if (string.IsNullOrWhiteSpace(command))
-                return; // nothing to run
-
-            using (var cmd = new Process())
+            try
             {
-                cmd.StartInfo.FileName =
-                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
-                cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                cmd.StartInfo.CreateNoWindow = true;
-                cmd.StartInfo.UseShellExecute = false;
-                cmd.StartInfo.Arguments = $"/C {command}";
-                cmd.StartInfo.WorkingDirectory =
-                    string.IsNullOrWhiteSpace(workingDirectory) ||
-                    !Directory.Exists(workingDirectory)
-                        ? Directory.GetCurrentDirectory()
-                        : workingDirectory;
-                if (!cmd.Start()) return;
-                cmd.WaitForExit();
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.Command: Checking whether the value of the required method parameter, 'command' parameter is null or consists solely of whitespace..."
+                );
+
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.Command: *** ERROR *** Null or blank value passed for the parameter, 'command'.  Stopping..."
+                    );
+
+                    return;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.Command: *** SUCCESS *** The value of the required parameter, 'command', is not blank.  Continuing..."
+                );
+
+                using (var cmd = new Process())
+                {
+                    cmd.StartInfo.FileName =
+                        Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                    cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    cmd.StartInfo.CreateNoWindow = true;
+                    cmd.StartInfo.UseShellExecute = false;
+                    cmd.StartInfo.Arguments = $"/C {command}";
+                    cmd.StartInfo.WorkingDirectory =
+                        string.IsNullOrWhiteSpace(workingDirectory) ||
+                        !Directory.Exists(workingDirectory)
+                            ? Directory.GetCurrentDirectory()
+                            : workingDirectory;
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"*** FYI *** Executing the specified command: {command}"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $@"Run.Command: {cmd.StartInfo.WorkingDirectory}\> {command}"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        "Run.Command: [no output will be read]"
+                    );
+
+                    cmd.Start();
+                    cmd.WaitForExit();
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"Run.Command: [process exited with code {cmd.ExitCode}]"
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                // dump all the exception info to the log
+                DebugUtils.LogException(ex);
             }
         }
 
@@ -86,7 +132,7 @@ namespace xyLOGIX.Core.Common
         /// writes to <c>STDOUT</c> or <c>STDERR</c> as soon as the line appears.
         /// </summary>
         /// <param name="command">
-        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.  
+        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.
         /// Environment variables are allowed.
         /// </param>
         /// <param name="workingDirectory">
