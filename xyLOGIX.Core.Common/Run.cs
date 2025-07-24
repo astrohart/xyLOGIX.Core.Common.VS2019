@@ -82,159 +82,66 @@ namespace xyLOGIX.Core.Common
         }
 
         /// <summary>
-        /// Executes a system <paramref name="command" /> and returns every line
-        /// written to <c>STDOUT</c> and <c>STDERR</c>.
+        /// Runs an arbitrary <paramref name="command" /> and yields each line it
+        /// writes to <c>STDOUT</c> or <c>STDERR</c> as soon as the line appears.
         /// </summary>
         /// <param name="command">
-        /// (Required.) The command to run – anything you can type at <c>cmd</c>.
+        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.  
         /// Environment variables are allowed.
         /// </param>
         /// <param name="workingDirectory">
-        /// Fully-qualified path to use as the working directory.
-        /// Falls back to <c>Directory.GetCurrentDirectory()</c> if blank or invalid.
+        /// Optional working directory.  Falls back to
+        /// <see cref="P:System.Environment.CurrentDirectory" /> when blank or invalid.
         /// </param>
-        /// <returns>
-        /// A read-only list of lines captured from the child process.
-        /// </returns>
+        /// <remarks>
+        /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
+        /// <c>STDOUT</c>; no lambdas → no CS1621.
+        /// </remarks>
         [return: NotLogged]
-        public IReadOnlyList<string> CommandWithOutput(
+        public IEnumerable<string> CommandWithOutput(
             [NotLogged] string command,
             [NotLogged] string workingDirectory = ""
         )
         {
-            IReadOnlyList<string> result = Array.Empty<string>();
+            if (string.IsNullOrWhiteSpace(command)) yield break;
 
-            try
+            var buffer = new List<string>();
+
+            using (var proc = new Process())
             {
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
-                    "Run.CommandWithOutput *** INFO: Checking whether the value of the parameter, 'command', is blank..."
-                );
+                proc.StartInfo.FileName =
+                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                proc.StartInfo.Arguments = $"/C {command} 2>&1";
+                proc.StartInfo.WorkingDirectory =
+                    DetermineCurrentWorkingDirectory(workingDirectory);
 
-                // Check whether the value of the parameter, 'command', is blank.
-                // If this is so, then emit an error message to the log file, and
-                // then terminate the execution of this method.
-                if (string.IsNullOrWhiteSpace(command))
-                {
-                    // The parameter, 'command' was either passed a null value, or it is blank.  This is not desirable.
-                    DebugUtils.WriteLine(
-                        DebugLevel.Error,
-                        "Run.CommandWithOutput: The parameter, 'command', was either passed a null value, or it is blank. Stopping..."
-                    );
-
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
-                        $"Run.CommandWithOutput: Result = '{result.ToSetString()}'"
-                    );
-
-                    // stop.
-                    return result;
-                }
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                proc.StartInfo.RedirectStandardOutput = true;
 
                 DebugUtils.WriteLine(
                     DebugLevel.Info,
-                    "*** FYI *** Allocating a new buffer to hold the output of the child process..."
+                    "*** FYI *** Executing the specified command..."
                 );
 
-                var buffer = new List<string>();
+                DebugUtils.WriteLine(
+                    DebugLevel.Debug,
+                    $@"{DetermineCurrentWorkingDirectory(workingDirectory)}\> {command}"
+                );
 
-                using (var proc = new Process())
+                proc.Start();
+
+                string line;
+                while ((line = proc.StandardOutput.ReadLine()) != null)
                 {
-                    proc.StartInfo.FileName =
-                        Environment.ExpandEnvironmentVariables("%COMSPEC%");
-                    proc.StartInfo.Arguments = $"/C {command}";
-                    proc.StartInfo.WorkingDirectory =
-                        DetermineCurrentWorkingDirectory(workingDirectory);
+                    yield return line;
 
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    proc.StartInfo.RedirectStandardError = true;
-
-                    proc.OutputDataReceived += (s, e) =>
-                    {
-                        if (e.Data == null) return; // end-of-stream
-                        lock (SyncRoot)
-                        {
-                            buffer.Add(e.Data);
-                        }
-
-                        DebugUtils.WriteLine(DebugLevel.Debug, e.Data);
-                    };
-                    proc.ErrorDataReceived += (s, e) =>
-                    {
-                        if (e.Data == null) return; // end-of-stream
-                        lock (SyncRoot)
-                        {
-                            buffer.Add(e.Data);
-                        }
-
-                        DebugUtils.WriteLine(DebugLevel.Debug, e.Data);
-                    };
-
-                    DebugUtils.WriteLine(
-                        DebugLevel.Info,
-                        "*** FYI *** Executing the specified command..."
-                    );
-
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
-                        $@"{DetermineCurrentWorkingDirectory(workingDirectory)}\> {command}"
-                    );
-
-                    DebugUtils.WriteLine(
-                        DebugLevel.Info,
-                        "Run.CommandWithOutput: Attempting to spawn the child process..."
-                    );
-
-                    // Check whether a new process was started.  If this is not the case, then
-                    // write an error message to the log file, and then terminate the execution
-                    //  of this method, returning the default return value, which is the empty
-                    // collection of strings.
-                    if (!proc.Start())
-                    {
-                        // No new process was started.  This is not desirable.
-                        DebugUtils.WriteLine(
-                            DebugLevel.Error,
-                            "Run.CommandWithOutput: No new process was started. Stopping..."
-                        );
-
-                        DebugUtils.WriteLine(
-                            DebugLevel.Debug,
-                            $"Run.CommandWithOutput: Result = '{result.ToSetString()}'"
-                        );
-
-                        return result;
-                    }
-
-                    DebugUtils.WriteLine(
-                        DebugLevel.Info,
-                        "Run.CommandWithOutput: *** SUCCESS *** The new process was started successfully.  Proceeding..."
-                    );
-
-                    proc.BeginOutputReadLine();
-                    proc.BeginErrorReadLine();
-                    proc.WaitForExit();
+                    DebugUtils.WriteLine(DebugLevel.Debug, line);
                 }
 
-                result = buffer.ToArray();
+                proc.WaitForExit();
             }
-            catch (Exception ex)
-            {
-                DebugUtils.LogException(ex);
-
-                result = Array.Empty<string>();
-            }
-
-            DebugUtils.WriteLine(
-                result.Count > 0 ? DebugLevel.Info : DebugLevel.Error,
-                result.Count > 0
-                    ? $"*** SUCCESS *** {result.Count} line(s) of STDOUT and STDERR output were obtained from spawning the child process.  Proceeding..."
-                    : "*** ERROR *** Zero line(s) of output were obtained from spawning the child process.  Stopping..."
-            );
-
-            return result;
         }
 
         /// <summary>
