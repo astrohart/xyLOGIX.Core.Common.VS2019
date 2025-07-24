@@ -52,7 +52,7 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// A read-only list of lines captured from the child process.
         /// </returns>
         [return: NotLogged]
-        IReadOnlyList<string> CommandWithOutput(
+        IEnumerable<string> CommandWithOutput(
             [NotLogged] string command,
             [NotLogged] string workingDirectory = ""
         );
