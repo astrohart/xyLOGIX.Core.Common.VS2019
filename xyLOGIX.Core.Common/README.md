@@ -214,21 +214,22 @@ execution.
 
 ##### Summary
 
-Executes a system `command` and returns every line
-written to `STDOUT` and `STDERR`.
-
-##### Returns
-
-A read-only list of lines captured from the child process.
+Runs an arbitrary `command` and yields each line it
+writes to `STDOUT` or `STDERR` as soon as the line appears.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) The command to run – anything you can type at `cmd`.
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`.  
 Environment variables are allowed. |
-| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Fully-qualified path to use as the working directory.
-Falls back to `Directory.GetCurrentDirectory()` if blank or invalid. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory.  Falls back to
+[CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
+
+##### Remarks
+
+Uses `cmd /C … 2>&1` so both streams arrive in order on
+`STDOUT`; no lambdas → no CS1621.
 
 <a name='M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String-'></a>
 ### DetermineCurrentWorkingDirectory(folder) `method`
