@@ -7,7 +7,7 @@ using xyLOGIX.Core.Common.Params.Interfaces;
 namespace xyLOGIX.Core.Common.Params.Factories
 {
     /// <summary>
-    /// Creates new instances of objects that implement the
+    /// Creates new instance(s) of object(s) that implement the
     /// <see cref="T:Core.Common.Params.Interfaces.IActionParams" /> interface, and
     /// returns references to them.
     /// </summary>
