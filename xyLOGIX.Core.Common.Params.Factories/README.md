@@ -21,7 +21,7 @@ xyLOGIX.Core.Common.Params.Factories
 
 ##### Summary
 
-Creates new instances of objects that implement the
+Creates new instance(s) of object(s) that implement the
 [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface, and
 returns references to them.
 
