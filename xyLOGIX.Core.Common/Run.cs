@@ -12,7 +12,6 @@ namespace xyLOGIX.Core.Common
     /// <summary> Methods and properties to encapsulate the execution of actions. </summary>
     public class Run : ISystem
     {
-        /// <summary>
         /// Empty, static constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
@@ -21,18 +20,19 @@ namespace xyLOGIX.Core.Common
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        protected Run() { }
+        protected Run()
+        { }
+
+        /// Gets a reference to the one and only instance of
+        /// <see cref="T:xyLOGIX.Core.Common.Run" />
+        /// .
+        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
         /// <summary>
         /// Gets a reference to an instance of an object that is to be used for thread
         /// synchronization purposes.
         /// </summary>
         private static object SyncRoot { get; } = new object();
-
-        /// Gets a reference to the one and only instance of
-        /// <see cref="T:xyLOGIX.Core.Common.Run" />
-        /// .
-        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
         /// Runs the specified system
         /// <paramref name="command" />
@@ -150,8 +150,6 @@ namespace xyLOGIX.Core.Common
         )
         {
             if (string.IsNullOrWhiteSpace(command)) yield break;
-
-            var buffer = new List<string>();
 
             using (var proc = new Process())
             {
