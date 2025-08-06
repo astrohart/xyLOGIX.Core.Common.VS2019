@@ -70,6 +70,7 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
         /// <c>STDOUT</c>; no lambdas → no CS1621.
         /// </remarks>
+        [return: NotLogged]
         IEnumerable<string> CommandWithOutput(
             [NotLogged] string command,
             [NotLogged] string workingDirectory = "",
