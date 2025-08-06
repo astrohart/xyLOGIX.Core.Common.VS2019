@@ -17,6 +17,7 @@
   - [ResourceManager](#P-xyLOGIX-Core-Common-Properties-Resources-ResourceManager 'xyLOGIX.Core.Common.Properties.Resources.ResourceManager')
 - [Run](#T-xyLOGIX-Core-Common-Run 'xyLOGIX.Core.Common.Run')
   - [#ctor()](#M-xyLOGIX-Core-Common-Run-#ctor 'xyLOGIX.Core.Common.Run.#ctor')
+  - [ValidExecutableExtensions](#F-xyLOGIX-Core-Common-Run-ValidExecutableExtensions 'xyLOGIX.Core.Common.Run.ValidExecutableExtensions')
   - [System](#P-xyLOGIX-Core-Common-Run-System 'xyLOGIX.Core.Common.Run.System')
   - [Command(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-Command-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.Command(System.String,System.String,System.Boolean)')
   - [CommandWithOutput(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.CommandWithOutput(System.String,System.String,System.Boolean)')
@@ -160,6 +161,14 @@ Methods and properties to encapsulate the execution of actions.
 ##### Parameters
 
 This constructor has no parameters.
+
+<a name='F-xyLOGIX-Core-Common-Run-ValidExecutableExtensions'></a>
+### ValidExecutableExtensions `constants`
+
+##### Summary
+
+Array of valid executable file extension(s) that this class will recognize and
+execute.
 
 <a name='P-xyLOGIX-Core-Common-Run-System'></a>
 ### System `property`
