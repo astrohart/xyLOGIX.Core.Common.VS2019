@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using xyLOGIX.Core.Common.Interfaces;
-using xyLOGIX.Core.Debug;
 using xyLOGIX.Core.Extensions;
 
 namespace xyLOGIX.Core.Common
@@ -14,15 +13,20 @@ namespace xyLOGIX.Core.Common
     /// <summary> Methods and properties to encapsulate the execution of actions. </summary>
     public class Run : ISystem
     {
+        private static readonly string[] ValidExecutableExtensions =
+        {
+            ".exe", ".com", ".bat", ".cmd", ".pif"
+        };
+
         /// Empty, static constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
         [Log(AttributeExclude = true)]
-        static Run() { }
+        static RunThe() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        protected Run() { }
+        protected RunThe() { }
 
         /// <summary>
         /// Gets a reference to an instance of an object that is to be used for thread
@@ -33,7 +37,8 @@ namespace xyLOGIX.Core.Common
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.Run" />
         /// .
-        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
+        public static ISystemInterface System { [DebuggerStepThrough] get; } =
+            new RunThe();
 
         /// Runs the specified system
         /// <paramref name="command" />
@@ -73,68 +78,64 @@ namespace xyLOGIX.Core.Common
         {
             try
             {
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
-                    "Run.Command: Checking whether the value of the required method parameter, 'command' parameter is null or consists solely of whitespace..."
-                );
-
                 if (string.IsNullOrWhiteSpace(command))
                 {
-                    DebugUtils.WriteLine(
-                        DebugLevel.Error,
+                    Console.WriteLine(
                         "Run.Command: *** ERROR *** Null or blank value passed for the parameter, 'command'.  Stopping..."
                     );
 
                     return;
                 }
 
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
+                Console.WriteLine(
                     "Run.Command: *** SUCCESS *** The value of the required parameter, 'command', is not blank.  Continuing..."
                 );
 
-                using (var cmd = new Process())
+                using (var proc = new Process())
                 {
-                    cmd.StartInfo.FileName =
-                        Environment.ExpandEnvironmentVariables("%COMSPEC%");
-                    cmd.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                    cmd.StartInfo.CreateNoWindow = true;
-                    cmd.StartInfo.UseShellExecute = false;
-                    cmd.StartInfo.Arguments = $"/C {command}";
-                    cmd.StartInfo.WorkingDirectory =
-                        string.IsNullOrWhiteSpace(workingDirectory) ||
-                        !Directory.Exists(workingDirectory)
-                            ? Directory.GetCurrentDirectory()
-                            : workingDirectory;
+                    var workDir =
+                        DetermineCurrentWorkingDirectory(workingDirectory);
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Info,
+                    if (useShell)
+                    {
+                        proc.StartInfo.FileName =
+                            Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                        proc.StartInfo.Arguments = $"/C {command}";
+                    }
+                    else
+                    {
+                        SplitExeAndArgs(command, out var exe, out var args);
+                        proc.StartInfo.FileName = exe;
+                        proc.StartInfo.Arguments = args;
+                    }
+
+                    proc.StartInfo.WorkingDirectory = workDir;
+                    proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.UseShellExecute = false;
+
+                    Console.WriteLine(
                         $"*** FYI *** Executing the specified command: {command}"
                     );
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
-                        $@"Run.Command: {cmd.StartInfo.WorkingDirectory}\> {command}"
+                    Console.WriteLine(
+                        $@"Run.Command: {proc.StartInfo.WorkingDirectory}\> {command}"
                     );
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
-                        "Run.Command: [no output will be read]"
-                    );
+                    Console.WriteLine("Run.Command: [no output will be read]");
 
-                    cmd.Start();
-                    cmd.WaitForExit();
+                    proc.Start();
+                    proc.WaitForExit();
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
-                        $"Run.Command: [process exited with code {cmd.ExitCode}]"
+                    Console.WriteLine(
+                        $"Run.Command: [process exited with code {proc.ExitCode}]"
                     );
                 }
             }
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                DebugUtils.LogException(ex);
+                Console.WriteLine(ex);
             }
         }
 
@@ -160,6 +161,10 @@ namespace xyLOGIX.Core.Common
         /// The default value of this parameter is <see langword="true" />.
         /// </param>
         /// <remarks>
+        /// As this method is an iterator, it will not actually get called
+        /// until it is enumerated, say, in a <see langword="foreach" />
+        /// loop, for example.
+        /// <para />
         /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
         /// <c>STDOUT</c>; no lambdas → no CS1621.
         /// </remarks>
@@ -172,28 +177,47 @@ namespace xyLOGIX.Core.Common
         {
             if (string.IsNullOrWhiteSpace(command)) yield break;
 
+            var workDir = DetermineCurrentWorkingDirectory(workingDirectory);
+
+            var psi = new ProcessStartInfo
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = workDir
+            };
+
+            if (useShell)
+            {
+                psi.FileName =
+                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                psi.Arguments = $"/C {command} 2>&1";
+            }
+            else
+            {
+                SplitExeAndArgs(command, out var exe, out var args);
+                psi.FileName = exe;
+                psi.Arguments = $"{args}";
+            }
+
             using (var proc = new Process())
             {
-                proc.StartInfo.FileName =
-                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
-                proc.StartInfo.Arguments = $"/C {command} 2>&1";
-                proc.StartInfo.WorkingDirectory =
-                    DetermineCurrentWorkingDirectory(workingDirectory);
-
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.CreateNoWindow = true;
-                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                proc.StartInfo.RedirectStandardOutput = true;
-
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
-                    "*** FYI *** Executing the specified command..."
+                Console.WriteLine();
+                Console.WriteLine(
+                    $@"{workDir}\> {psi.FileName} {psi.Arguments}"
                 );
+                Console.WriteLine();
 
-                DebugUtils.WriteLine(
-                    DebugLevel.Debug,
-                    $@"{DetermineCurrentWorkingDirectory(workingDirectory)}\> {command}"
-                );
+                proc.StartInfo = psi;
+
+                if (!useShell && !Does.FileExist(psi.FileName))
+                {
+                    Console.WriteLine(
+                        $"ERROR: Could not locate the executable, '{psi.FileName}'.  Stopping..."
+                    );
+                    yield break;
+                }
 
                 proc.Start();
 
@@ -201,8 +225,6 @@ namespace xyLOGIX.Core.Common
                 while ((line = proc.StandardOutput.ReadLine()) != null)
                 {
                     yield return line;
-
-                    DebugUtils.WriteLine(DebugLevel.Debug, line);
                 }
 
                 proc.WaitForExit();
@@ -243,8 +265,7 @@ namespace xyLOGIX.Core.Common
 
             try
             {
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
+                Console.WriteLine(
                     "Run.DetermineCurrentWorkingDirectory *** INFO: Checking whether the value of the parameter, 'folder', is blank..."
                 );
 
@@ -254,13 +275,11 @@ namespace xyLOGIX.Core.Common
                 if (string.IsNullOrWhiteSpace(folder))
                 {
                     // The parameter, 'folder' was either passed a null value, or it is blank.  This is not desirable.
-                    DebugUtils.WriteLine(
-                        DebugLevel.Error,
+                    Console.WriteLine(
                         "Run.DetermineCurrentWorkingDirectory: The parameter, 'folder', was either passed a null value, or it is blank. Stopping..."
                     );
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
+                    Console.WriteLine(
                         $"Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
                     );
 
@@ -268,13 +287,11 @@ namespace xyLOGIX.Core.Common
                     return result;
                 }
 
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
+                Console.WriteLine(
                     "*** SUCCESS *** The parameter 'folder', is not blank.  Proceeding..."
                 );
 
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
+                Console.WriteLine(
                     $"Run.DetermineCurrentWorkingDirectory *** INFO: Checking whether the folder with path, '{folder}', exists on the file system..."
                 );
 
@@ -283,13 +300,11 @@ namespace xyLOGIX.Core.Common
                 // the execution of this method, returning the default return value.
                 if (!Directory.Exists(folder))
                 {
-                    DebugUtils.WriteLine(
-                        DebugLevel.Error,
+                    Console.WriteLine(
                         $"Run.DetermineCurrentWorkingDirectory: *** ERROR *** The system could not locate the folder having the path, '{folder}', on the file system.  Stopping..."
                     );
 
-                    DebugUtils.WriteLine(
-                        DebugLevel.Debug,
+                    Console.WriteLine(
                         $"*** Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
                     );
 
@@ -297,8 +312,7 @@ namespace xyLOGIX.Core.Common
                     return result;
                 }
 
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
+                Console.WriteLine(
                     $"Run.DetermineCurrentWorkingDirectory: *** SUCCESS *** The folder with path, '{folder}', was found on the file system.  Proceeding..."
                 );
 
@@ -307,14 +321,13 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                DebugUtils.LogException(ex);
+                Console.WriteLine(ex);
 
                 result = Directory.GetCurrentDirectory()
                                   .RemoveTrailingBackslashes();
             }
 
-            DebugUtils.WriteLine(
-                DebugLevel.Debug,
+            Console.WriteLine(
                 $"Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
             );
 
@@ -322,18 +335,23 @@ namespace xyLOGIX.Core.Common
         }
 
         /// <summary>
-        /// Attempts to resolve the specified <paramref name="pathname" /> to a
-        /// fully-qualified path using the current <c>PATH</c>.  Returns the original
-        /// string when the executable is already qualified or cannot be found.
+        /// Attempts to resolve <paramref name="pathname" /> to a fully-qualified file
+        /// on the current <c>PATH</c>.
         /// </summary>
+        /// <remarks>
+        /// * Accepts executables with any of the four legacy extensions
+        /// (<c>.bat</c>, <c>.cmd</c>, <c>.com</c>, <c>.pif</c>) or <c>.exe</c>.
+        /// * When no extension is supplied, <c>.exe</c> is assumed.
+        /// * Returns the original <paramref name="pathname" /> if a match is not
+        /// found.
+        /// </remarks>
         /// <param name="pathname">
-        /// (Required.) A <see cref="T:System.String" /> containing the pathname that is to
-        /// be resolved.
+        /// Command name exactly as supplied by the caller (e.g. <c>git</c>,
+        /// <c>git.exe</c>, <c>myTool.cmd</c>).
         /// </param>
         /// <returns>
-        /// If successful, a <see cref="T:System.String" /> containing the
-        /// fully-qualified pathname of the executable; otherwise, the method is
-        /// idempotent.
+        /// The resolved, fully-qualified path when the file is found; otherwise the
+        /// original <paramref name="pathname" />.
         /// </returns>
         private static string ResolveExeOnPath(string pathname)
         {
@@ -343,20 +361,32 @@ namespace xyLOGIX.Core.Common
             {
                 if (string.IsNullOrWhiteSpace(pathname)) return result;
 
+                if (Path.IsPathRooted(pathname) && File.Exists(pathname))
+                    return pathname;
+
+                var ext = Path.GetExtension(pathname);
+                var hasAllowedExt = ValidExecutableExtensions.Contains(ext);
+
+                var baseName = pathname.Trim('"');
+                var searchName = hasAllowedExt ? baseName : baseName + ".exe";
+
                 if (pathname.Contains(@"\") || pathname.Contains("/"))
                     return pathname; // already a path (relative or abs.)
 
-                var paths = Environment.GetEnvironmentVariable("PATH")
-                                       ?.Split(';') ?? Array.Empty<string>();
+                var pathParts = Environment.GetEnvironmentVariable("PATH")
+                                           ?.Split(';') ??
+                                Array.Empty<string>();
 
-                if (paths == null) return result;
-                if (paths.Length <= 0) return result;
+                if (pathParts == null) return result;
+                if (pathParts.Length <= 0) return result;
 
-                foreach (var dir in paths)
+                foreach (var dir in pathParts)
                 {
-                    var candidate = Path.Combine(dir.Trim('"'), pathname);
-                    if (string.IsNullOrWhiteSpace(candidate)) continue;
-                    if (!File.Exists(candidate)) continue;
+                    var candidate = Path.GetFullPath(
+                        Path.Combine(dir.Trim('"'), searchName)
+                    );
+
+                    if (!Does.FileExist(candidate)) continue;
 
                     result = candidate;
                     break;
@@ -365,7 +395,7 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                DebugUtils.LogException(ex);
+                Console.WriteLine(ex);
 
                 result = pathname;
             }
@@ -408,9 +438,12 @@ namespace xyLOGIX.Core.Common
                                  .ToArray();
 
                 exePath = parts.Length > 0
-                    ? parts[0]
-                        .Trim('"')
-                    : "";
+                    ? ResolveExeOnPath(
+                        parts[0]
+                            .Trim('"')
+                    ) // ★​resolve right here
+                    : string.Empty;
+
                 arguments = parts.Length > 1
                     ? string.Join(" ", parts.Skip(1))
                     : string.Empty;
@@ -418,7 +451,7 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                DebugUtils.LogException(ex);
+                Console.WriteLine(ex);
 
                 exePath = arguments = string.Empty;
             }
