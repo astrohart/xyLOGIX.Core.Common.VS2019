@@ -14,6 +14,10 @@ namespace xyLOGIX.Core.Common
     /// <summary> Methods and properties to encapsulate the execution of actions. </summary>
     public class Run : ISystem
     {
+        /// <summary>
+        /// Array of valid executable file extension(s) that this class will recognize and
+        /// execute.
+        /// </summary>
         private static readonly string[] ValidExecutableExtensions =
         {
             ".exe", ".com", ".bat", ".cmd", ".pif"
