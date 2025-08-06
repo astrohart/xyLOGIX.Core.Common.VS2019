@@ -129,7 +129,7 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                Console.WriteLine(ex);
+                DebugUtils.LogException(ex);
             }
         }
 
@@ -259,7 +259,8 @@ namespace xyLOGIX.Core.Common
 
             try
             {
-                Console.WriteLine(
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
                     "Run.DetermineCurrentWorkingDirectory *** INFO: Checking whether the value of the parameter, 'folder', is blank..."
                 );
 
@@ -269,11 +270,13 @@ namespace xyLOGIX.Core.Common
                 if (string.IsNullOrWhiteSpace(folder))
                 {
                     // The parameter, 'folder' was either passed a null value, or it is blank.  This is not desirable.
-                    Console.WriteLine(
-                        "Run.DetermineCurrentWorkingDirectory: The parameter, 'folder', was either passed a null value, or it is blank. Stopping..."
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.DetermineCurrentWorkingDirectory: *** ERROR *** The parameter, 'folder', was either passed a null value, or it is blank. Stopping..."
                     );
 
-                    Console.WriteLine(
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
                         $"Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
                     );
 
@@ -281,11 +284,13 @@ namespace xyLOGIX.Core.Common
                     return result;
                 }
 
-                Console.WriteLine(
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
                     "*** SUCCESS *** The parameter 'folder', is not blank.  Proceeding..."
                 );
 
-                Console.WriteLine(
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
                     $"Run.DetermineCurrentWorkingDirectory *** INFO: Checking whether the folder with path, '{folder}', exists on the file system..."
                 );
 
@@ -294,19 +299,22 @@ namespace xyLOGIX.Core.Common
                 // the execution of this method, returning the default return value.
                 if (!Directory.Exists(folder))
                 {
-                    Console.WriteLine(
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
                         $"Run.DetermineCurrentWorkingDirectory: *** ERROR *** The system could not locate the folder having the path, '{folder}', on the file system.  Stopping..."
                     );
 
-                    Console.WriteLine(
-                        $"*** Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
                     );
 
                     // stop.
                     return result;
                 }
 
-                Console.WriteLine(
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
                     $"Run.DetermineCurrentWorkingDirectory: *** SUCCESS *** The folder with path, '{folder}', was found on the file system.  Proceeding..."
                 );
 
@@ -315,13 +323,14 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                Console.WriteLine(ex);
+                DebugUtils.LogException(ex);
 
                 result = Directory.GetCurrentDirectory()
                                   .RemoveTrailingBackslashes();
             }
 
-            Console.WriteLine(
+            DebugUtils.WriteLine(
+                DebugLevel.Debug,
                 $"Run.DetermineCurrentWorkingDirectory: Result = '{result}'"
             );
 
@@ -383,10 +392,70 @@ namespace xyLOGIX.Core.Common
 
             try
             {
-                if (string.IsNullOrWhiteSpace(pathname)) return result;
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.ResolveExeOnPath *** INFO: Checking whether the value of the parameter, 'pathname', is blank..."
+                );
 
+                // Check whether the value of the parameter, 'pathname', is blank.
+                // If this is so, then emit an error message to the log file, and
+                // then terminate the execution of this method.
+                if (string.IsNullOrWhiteSpace(pathname))
+                {
+                    // The parameter, 'pathname' was either passed a null value, or it is blank.  This is not desirable.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.ResolveExeOnPath: The parameter, 'pathname' was either passed a null value, or it is blank. Stopping..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"Run.ResolveExeOnPath: Result = '{result}'"
+                    );
+
+                    // stop.
+                    return result;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** SUCCESS *** The parameter 'pathname' is not blank.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"Run.ResolveExeOnPath: Checking whether the pathname, '{pathname}', is NOT already fully-qualified..."
+                );
+
+                // Check to see whether the specified pathname is NOT already fully-qualified.
+                // If this is not the case, then write an error message to the log file,
+                // and then terminate the execution of this method.
                 if (Path.IsPathRooted(pathname) && File.Exists(pathname))
-                    return pathname;
+                {
+                    // The specified pathname is already fully-qualified.  There is nothing further to do.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"*** FYI *** The pathname, '{pathname}', is already fully-qualified.  Stopping..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"*** Run.ResolveExeOnPath: Result = '{result}'"
+                    );
+
+                    // stop.
+                    return result;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"Run.ResolveExeOnPath: *** SUCCESS *** The pathname, '{pathname}', is NOT already fully-qualified.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"*** FYI *** Attempting to resolve the pathname, '{pathname}', to a fully-qualified file on the current PATH..."
+                );
 
                 var ext = Path.GetExtension(pathname);
                 var hasAllowedExt = ValidExecutableExtensions.Contains(ext);
@@ -401,8 +470,71 @@ namespace xyLOGIX.Core.Common
                                            ?.Split(';') ??
                                 Array.Empty<string>();
 
-                if (pathParts == null) return result;
-                if (pathParts.Length <= 0) return result;
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.ResolveExeOnPath: Checking whether the variable, 'pathParts', has a null reference for a value..."
+                );
+
+                // Check to see if the variable, pathParts, is null.  If it is, send an error
+                // to the log file and terminate the execution of this method, returning
+                // the default return value.
+                if (pathParts == null)
+                {
+                    // the variable pathParts is required to have a valid object reference.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.ResolveExeOnPath: *** ERROR ***  The variable, 'pathParts', has a null reference.  Stopping..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"*** Run.ResolveExeOnPath: Result = '{result}'"
+                    );
+
+                    // stop.
+                    return result;
+                }
+
+                // We can use the variable, pathParts, because it's not set to a null reference.
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.ResolveExeOnPath: *** SUCCESS *** The variable, 'pathParts', has a valid object reference for its value.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.ResolveExeOnPath *** INFO: Checking whether the array, 'pathParts', has greater than zero elements..."
+                );
+
+                // Check whether the array, 'pathParts', has greater than zero elements.  If it is empty,
+                // then write an error message to the log file, and then terminate the execution of this method.
+                // It is preferred for the array to have greater than zero elements.
+                if (pathParts.Length <= 0)
+                {
+                    // The array, 'pathParts', has zero elements, and we can't proceed if this is so.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.ResolveExeOnPath *** ERROR *** The array, 'pathParts', has zero elements.  Stopping..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug,
+                        $"*** Run.ResolveExeOnPath: Result = '{result}'"
+                    );
+
+                    // stop.
+                    return result;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"Run.ResolveExeOnPath *** SUCCESS *** {pathParts.Length} element(s) were found in the 'pathParts' array.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"*** FYI *** Searching for the file, '{searchName}', in the directory(ies) listed on the PATH:"
+                );
 
                 foreach (var dir in pathParts)
                 {
@@ -410,8 +542,29 @@ namespace xyLOGIX.Core.Common
                         Path.Combine(dir.Trim('"'), searchName)
                     );
 
-                    if (string.IsNullOrWhiteSpace(candidate)) continue;
-                    if (!File.Exists(candidate)) continue;
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"Run.ResolveExeOnPath *** INFO: Checking whether the file having pathname, '{candidate}', exists on the file system..."
+                    );
+
+                    // Check whether a file having pathname, 'candidate', exists on the file system.
+                    // If it does not, then write an error message to the log file, and then skip
+                    // to the next iteration of the loop.
+                    if (!DoesFileExist(candidate))
+                    {
+                        DebugUtils.WriteLine(
+                            DebugLevel.Error,
+                            $"Run.ResolveExeOnPath: *** ERROR *** The system could not locate the file having pathname, '{candidate}', on the file system.  Skipping to the next loop iteration..."
+                        );
+
+                        // skip to the next loop iteration.
+                        continue;
+                    }
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"Run.ResolveExeOnPath: *** SUCCESS *** The file having pathname, '{candidate}', was found on the file system.  Proceeding..."
+                    );
 
                     result = candidate;
                     break;
@@ -420,10 +573,14 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                Console.WriteLine(ex);
+                DebugUtils.LogException(ex);
 
                 result = pathname;
             }
+
+            DebugUtils.WriteLine(
+                DebugLevel.Debug, $"Run.ResolveExeOnPath: Result = '{result}'"
+            );
 
             return result;
         }
@@ -476,7 +633,7 @@ namespace xyLOGIX.Core.Common
             catch (Exception ex)
             {
                 // dump all the exception info to the log
-                Console.WriteLine(ex);
+                DebugUtils.LogException(ex);
 
                 exePath = arguments = string.Empty;
             }
