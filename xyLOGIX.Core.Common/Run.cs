@@ -33,6 +33,67 @@ namespace xyLOGIX.Core.Common
         /// .
         public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
+        /// <summary>
+        /// Runs an arbitrary <paramref name="command" /> and yields each line it
+        /// writes to <c>STDOUT</c> or <c>STDERR</c> as soon as the line appears.
+        /// </summary>
+        /// <param name="command">
+        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.
+        /// Environment variables are allowed.
+        /// </param>
+        /// <param name="workingDirectory">
+        /// Optional working directory.  Falls back to
+        /// <see cref="P:System.Environment.CurrentDirectory" /> when blank or invalid.
+        /// </param>
+        /// <remarks>
+        /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
+        /// <c>STDOUT</c>; no lambdas → no CS1621.
+        /// </remarks>
+        [return: NotLogged]
+        public IEnumerable<string> CommandWithOutput(
+            [NotLogged] string command,
+            [NotLogged] string workingDirectory = ""
+        )
+        {
+            if (string.IsNullOrWhiteSpace(command)) yield break;
+
+            using (var proc = new Process())
+            {
+                proc.StartInfo.FileName =
+                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
+                proc.StartInfo.Arguments = $"/C {command} 2>&1";
+                proc.StartInfo.WorkingDirectory =
+                    DetermineCurrentWorkingDirectory(workingDirectory);
+
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                proc.StartInfo.RedirectStandardOutput = true;
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** FYI *** Executing the specified command..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Debug,
+                    $@"{DetermineCurrentWorkingDirectory(workingDirectory)}\> {command}"
+                );
+
+                proc.Start();
+
+                string line;
+                while ((line = proc.StandardOutput.ReadLine()) != null)
+                {
+                    yield return line;
+
+                    DebugUtils.WriteLine(DebugLevel.Debug, line);
+                }
+
+                proc.WaitForExit();
+            }
+        }
+
         /// Runs the specified system
         /// <paramref name="command" />
         /// but does not return the output.
@@ -46,6 +107,15 @@ namespace xyLOGIX.Core.Common
         /// containing a fully-qualified pathname of the working directory for running the
         /// command.
         /// </param>
+        /// <param name="useShell">
+        /// (Optional.) Set to <see langword="true" /> to use the Command Interpreter to
+        /// execute the command; otherwise, <see langword="false" /> to directly execute
+        /// the specified <paramref name="command" /> after splitting it on spaces,
+        /// assuming that the first space-delimited token is the name of an executable
+        /// file, and the rest of the token(s) are its argument(s).
+        /// <para />
+        /// The default value of this parameter is <see langword="true" />.
+        /// </param>
         /// <remarks>
         /// If this method is passed a <see langword="null" /> or blank value for
         /// the <paramref name="command" /> parameter, it does nothing.
@@ -56,7 +126,8 @@ namespace xyLOGIX.Core.Common
         /// </remarks>
         public void Command(
             [NotLogged] string command,
-            [NotLogged] string workingDirectory = ""
+            [NotLogged] string workingDirectory = "",
+            bool useShell = true
         )
         {
             try
@@ -123,67 +194,6 @@ namespace xyLOGIX.Core.Common
             {
                 // dump all the exception info to the log
                 DebugUtils.LogException(ex);
-            }
-        }
-
-        /// <summary>
-        /// Runs an arbitrary <paramref name="command" /> and yields each line it
-        /// writes to <c>STDOUT</c> or <c>STDERR</c> as soon as the line appears.
-        /// </summary>
-        /// <param name="command">
-        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.
-        /// Environment variables are allowed.
-        /// </param>
-        /// <param name="workingDirectory">
-        /// Optional working directory.  Falls back to
-        /// <see cref="P:System.Environment.CurrentDirectory" /> when blank or invalid.
-        /// </param>
-        /// <remarks>
-        /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
-        /// <c>STDOUT</c>; no lambdas → no CS1621.
-        /// </remarks>
-        [return: NotLogged]
-        public IEnumerable<string> CommandWithOutput(
-            [NotLogged] string command,
-            [NotLogged] string workingDirectory = ""
-        )
-        {
-            if (string.IsNullOrWhiteSpace(command)) yield break;
-
-            using (var proc = new Process())
-            {
-                proc.StartInfo.FileName =
-                    Environment.ExpandEnvironmentVariables("%COMSPEC%");
-                proc.StartInfo.Arguments = $"/C {command} 2>&1";
-                proc.StartInfo.WorkingDirectory =
-                    DetermineCurrentWorkingDirectory(workingDirectory);
-
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.CreateNoWindow = true;
-                proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                proc.StartInfo.RedirectStandardOutput = true;
-
-                DebugUtils.WriteLine(
-                    DebugLevel.Info,
-                    "*** FYI *** Executing the specified command..."
-                );
-
-                DebugUtils.WriteLine(
-                    DebugLevel.Debug,
-                    $@"{DetermineCurrentWorkingDirectory(workingDirectory)}\> {command}"
-                );
-
-                proc.Start();
-
-                string line;
-                while ((line = proc.StandardOutput.ReadLine()) != null)
-                {
-                    yield return line;
-
-                    DebugUtils.WriteLine(DebugLevel.Debug, line);
-                }
-
-                proc.WaitForExit();
             }
         }
 
@@ -345,7 +355,7 @@ namespace xyLOGIX.Core.Common
                 // dump all the exception info to the log
                 DebugUtils.LogException(ex);
 
-                result = pathname;  
+                result = pathname;
             }
 
             return result;
