@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using xyLOGIX.Core.Common.Interfaces;
+using xyLOGIX.Core.Debug;
 using xyLOGIX.Core.Extensions;
 
 namespace xyLOGIX.Core.Common
@@ -22,23 +23,16 @@ namespace xyLOGIX.Core.Common
         /// class.
         /// </summary>
         [Log(AttributeExclude = true)]
-        static RunThe() { }
+        static Run() { }
 
         /// Empty, protected constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        protected RunThe() { }
-
-        /// <summary>
-        /// Gets a reference to an instance of an object that is to be used for thread
-        /// synchronization purposes.
-        /// </summary>
-        private static object SyncRoot { get; } = new object();
+        protected Run() { }
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.Run" />
         /// .
-        public static ISystemInterface System { [DebuggerStepThrough] get; } =
-            new RunThe();
+        public static ISystem System { [DebuggerStepThrough] get; } = new Run();
 
         /// Runs the specified system
         /// <paramref name="command" />
@@ -211,7 +205,7 @@ namespace xyLOGIX.Core.Common
 
                 proc.StartInfo = psi;
 
-                if (!useShell && !Does.FileExist(psi.FileName))
+                if (!useShell && !DoesFileExist(psi.FileName))
                 {
                     Console.WriteLine(
                         $"ERROR: Could not locate the executable, '{psi.FileName}'.  Stopping..."
@@ -334,6 +328,36 @@ namespace xyLOGIX.Core.Common
             return result;
         }
 
+        private static bool DoesFileExist(string pathnamne)
+        {
+            var result = false;
+
+            try
+            {
+                /*
+                 * ASSUME that the specified pathname is that of
+                 * a file.
+                 */
+
+                if (string.IsNullOrWhiteSpace(pathnamne)) return result;
+
+                result = File.Exists(pathnamne);
+            }
+            catch (Exception ex)
+            {
+                // dump all the exception info to the log
+                DebugUtils.LogException(ex);
+
+                result = false;
+            }
+
+            DebugUtils.WriteLine(
+                DebugLevel.Debug, $"Run.DoesFileExist: Result = {result}"
+            );
+
+            return result;
+        }
+
         /// <summary>
         /// Attempts to resolve <paramref name="pathname" /> to a fully-qualified file
         /// on the current <c>PATH</c>.
@@ -386,7 +410,8 @@ namespace xyLOGIX.Core.Common
                         Path.Combine(dir.Trim('"'), searchName)
                     );
 
-                    if (!Does.FileExist(candidate)) continue;
+                    if (string.IsNullOrWhiteSpace(candidate)) continue;
+                    if (!File.Exists(candidate)) continue;
 
                     result = candidate;
                     break;
