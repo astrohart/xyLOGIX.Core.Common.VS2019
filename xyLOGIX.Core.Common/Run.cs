@@ -327,6 +327,9 @@ namespace xyLOGIX.Core.Common
                 var paths = Environment.GetEnvironmentVariable("PATH")
                                        ?.Split(';') ?? Array.Empty<string>();
 
+                if (paths == null) return result;
+                if (paths.Length <= 0) return result;
+
                 foreach (var dir in paths)
                 {
                     var candidate = Path.Combine(dir.Trim('"'), pathname);
