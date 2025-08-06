@@ -330,8 +330,11 @@ namespace xyLOGIX.Core.Common
                 foreach (var dir in paths)
                 {
                     var candidate = Path.Combine(dir.Trim('"'), pathname);
-                    if (File.Exists(candidate))
-                        return candidate;
+                    if (string.IsNullOrWhiteSpace(candidate)) continue;
+                    if (!File.Exists(candidate)) continue;
+
+                    result = candidate;
+                    break;
                 }
             }
             catch (Exception ex)
@@ -339,13 +342,10 @@ namespace xyLOGIX.Core.Common
                 // dump all the exception info to the log
                 DebugUtils.LogException(ex);
 
-                result = pathname;
+                result = pathname;  
             }
 
             return result;
-
-
-            return pathname; // fallback – hope CreateProcess finds it
         }
     }
 }
