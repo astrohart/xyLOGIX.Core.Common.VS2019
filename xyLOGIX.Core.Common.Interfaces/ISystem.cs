@@ -67,6 +67,10 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// The default value of this parameter is <see langword="true" />.
         /// </param>
         /// <remarks>
+        /// As this method is an iterator, it will not actually get called
+        /// until it is enumerated, say, in a <see langword="foreach" />
+        /// loop, for example.
+        /// <para />
         /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
         /// <c>STDOUT</c>; no lambdas → no CS1621.
         /// </remarks>
