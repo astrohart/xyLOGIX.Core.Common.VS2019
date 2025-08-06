@@ -300,27 +300,36 @@ namespace xyLOGIX.Core.Common
         }
 
         /// <summary>
-        /// Attempts to resolve <paramref name="exe" /> to a fully-qualified path
-        /// using the current <c>PATH</c>.  Returns the original string when the
-        /// executable is already qualified or cannot be found.
+        /// Attempts to resolve the specified <paramref name="pathname" /> to a
+        /// fully-qualified path using the current <c>PATH</c>.  Returns the original
+        /// string when the executable is already qualified or cannot be found.
         /// </summary>
-        private static string ResolveExeOnPath(string exe)
+        /// <param name="pathname">
+        /// (Required.) A <see cref="T:System.String" /> containing the pathname that is to
+        /// be resolved.
+        /// </param>
+        /// <returns>
+        /// If successful, a <see cref="T:System.String" /> containing the
+        /// fully-qualified pathname of the executable; otherwise, the method is
+        /// idempotent.
+        /// </returns>
+        private static string ResolveExeOnPath(string pathname)
         {
-            var result = exe;
+            var result = pathname;
 
             try
             {
-                if (string.IsNullOrWhiteSpace(exe)) return result;
+                if (string.IsNullOrWhiteSpace(pathname)) return result;
 
-                if (exe.Contains(@"\") || exe.Contains("/"))
-                    return exe; // already a path (relative or abs.)
+                if (pathname.Contains(@"\") || pathname.Contains("/"))
+                    return pathname; // already a path (relative or abs.)
 
                 var paths = Environment.GetEnvironmentVariable("PATH")
                                        ?.Split(';') ?? Array.Empty<string>();
 
                 foreach (var dir in paths)
                 {
-                    var candidate = Path.Combine(dir.Trim('"'), exe);
+                    var candidate = Path.Combine(dir.Trim('"'), pathname);
                     if (File.Exists(candidate))
                         return candidate;
                 }
@@ -330,13 +339,13 @@ namespace xyLOGIX.Core.Common
                 // dump all the exception info to the log
                 DebugUtils.LogException(ex);
 
-                result = exe;
+                result = pathname;
             }
 
             return result;
 
 
-            return exe; // fallback – hope CreateProcess finds it
+            return pathname; // fallback – hope CreateProcess finds it
         }
     }
 }
