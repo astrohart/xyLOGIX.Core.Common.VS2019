@@ -45,6 +45,15 @@ namespace xyLOGIX.Core.Common
         /// Optional working directory.  Falls back to
         /// <see cref="P:System.Environment.CurrentDirectory" /> when blank or invalid.
         /// </param>
+        /// <param name="useShell">
+        /// (Optional.) Set to <see langword="true" /> to use the Command Interpreter to
+        /// execute the command; otherwise, <see langword="false" /> to directly execute
+        /// the specified <paramref name="command" /> after splitting it on spaces,
+        /// assuming that the first space-delimited token is the name of an executable
+        /// file, and the rest of the token(s) are its argument(s).
+        /// <para />
+        /// The default value of this parameter is <see langword="true" />.
+        /// </param>
         /// <remarks>
         /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
         /// <c>STDOUT</c>; no lambdas → no CS1621.
@@ -52,7 +61,8 @@ namespace xyLOGIX.Core.Common
         [return: NotLogged]
         public IEnumerable<string> CommandWithOutput(
             [NotLogged] string command,
-            [NotLogged] string workingDirectory = ""
+            [NotLogged] string workingDirectory = "",
+            bool useShell = true
         )
         {
             if (string.IsNullOrWhiteSpace(command)) yield break;
