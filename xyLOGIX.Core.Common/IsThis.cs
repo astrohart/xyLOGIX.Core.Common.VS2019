@@ -13,7 +13,7 @@ namespace xyLOGIX.Core.Common
         /// </summary>
         static IsThis() { }
 
-        /// Empty, protected constructor to prohibit direct allocation of this class.
+        /// Empty, <see langword="private" /> constructor to prohibit direct allocation of this class.
         protected IsThis() { }
 
         /// Gets a reference to the one and only instance of

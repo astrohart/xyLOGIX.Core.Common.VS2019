@@ -29,9 +29,10 @@ namespace xyLOGIX.Core.Common
         [Log(AttributeExclude = true)]
         static Run() { }
 
-        /// Empty, protected constructor to prohibit direct allocation of this class.
+        /// Empty, <see langword="private" /> constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        protected Run() { }
+        [Log(AttributeExclude = true)]
+        private Run() { }
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.Run" />
