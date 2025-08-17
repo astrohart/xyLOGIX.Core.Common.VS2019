@@ -23,7 +23,7 @@ namespace xyLOGIX.Core.Common
             ".exe", ".com", ".bat", ".cmd", ".pif"
         };
 
-        /// Empty, static constructor to prohibit direct allocation of this
+        /// Empty, <see langword="static" /> constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
         [Log(AttributeExclude = true)]

@@ -8,7 +8,7 @@ namespace xyLOGIX.Core.Common
     public class IsThis
     {
         /// <summary>
-        /// Empty, static constructor to prohibit direct allocation of this
+        /// Empty, <see langword="static" /> constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
         static IsThis() { }
