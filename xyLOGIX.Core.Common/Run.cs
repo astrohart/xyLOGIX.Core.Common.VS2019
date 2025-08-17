@@ -31,7 +31,6 @@ namespace xyLOGIX.Core.Common
 
         /// Empty, <see langword="private" /> constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
-        [Log(AttributeExclude = true)]
         private Run() { }
 
         /// Gets a reference to the one and only instance of
