@@ -99,7 +99,7 @@ This constructor has no parameters.
 
 ##### Summary
 
-Empty, static constructor to prohibit direct allocation of this
+Empty, `static` constructor to prohibit direct allocation of this
 class.
 
 ##### Parameters
