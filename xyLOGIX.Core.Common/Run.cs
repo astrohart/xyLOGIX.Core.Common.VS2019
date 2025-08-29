@@ -23,13 +23,17 @@ namespace xyLOGIX.Core.Common
             ".exe", ".com", ".bat", ".cmd", ".pif"
         };
 
-        /// Empty, <see langword="static" /> constructor to prohibit direct allocation of this
+        /// Empty,
+        /// <see langword="static" />
+        /// constructor to prohibit direct allocation of this
         /// class.
         /// </summary>
         [Log(AttributeExclude = true)]
         static Run() { }
 
-        /// Empty, <see langword="private" /> constructor to prohibit direct allocation of this class.
+        /// Empty,
+        /// <see langword="private" />
+        /// constructor to prohibit direct allocation of this class.
         [Log(AttributeExclude = true)]
         private Run() { }
 
@@ -341,7 +345,20 @@ namespace xyLOGIX.Core.Common
             return result;
         }
 
-        private static bool DoesFileExist(string pathnamne)
+        /// <summary>
+        /// Determines whether the file having the specified <paramref name="pathnamne" />
+        /// exists on the file system.
+        /// </summary>
+        /// <param name="pathnamne">
+        /// (Required.) A <see cref="T:System.String" /> that contains the fully-qualified
+        /// pathname of a file that is to be searched for.
+        /// </param>
+        /// <returns>
+        /// <see langword="true" /> if the file having the specified
+        /// <paramref name="pathnamne" /> exists, <see langword="false" /> otherwwise.
+        /// </returns>
+        [Log(AttributeExclude = true)]
+        private static bool DoesFileExist([NotLogged] string pathnamne)
         {
             var result = false;
 
@@ -349,7 +366,9 @@ namespace xyLOGIX.Core.Common
             {
                 /*
                  * ASSUME that the specified pathname is that of
-                 * a file.
+                 * a file.  We have to check string.IsNullOrWhiteSpace()
+                 * separately, since otherwise, File.Exists will raise
+                 * an exception if it is passed a null or blank value.
                  */
 
                 if (string.IsNullOrWhiteSpace(pathnamne)) return result;
@@ -615,24 +634,234 @@ namespace xyLOGIX.Core.Common
             {
                 exePath = arguments = string.Empty;
 
-                if (string.IsNullOrWhiteSpace(command)) return;
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs: Checking whether the value of the required method parameter, 'command' parameter is null or consists solely of whitespace..."
+                );
 
-                // Regex: either "quoted string" or unquoted token
+                // Check whether the value of the parameter, 'command', is blank.
+                // If this is so, then emit an error message to the log file, and
+                // then terminate the execution of this method.
+                if (string.IsNullOrWhiteSpace(command))
+                {
+                    // The parameter, 'command' was either passed a null value, or it is blank.  This is not desirable.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.SplitExeAndArgs: *** ERROR *** Null or blank value passed for the parameter, 'command'.  Stopping..."
+                    );
+
+                    return;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs: *** SUCCESS *** The value of the required parameter, 'command', is not blank.  Continuing..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"*** FYI *** Attempting to split the command, '{command}', into an executable path and its argument(s)..."
+                );
+
+                // Tokenize: either "quoted string" or unquoted token
                 var parts = Regex.Matches(command, @"[\""].+?[\""]|[^ ]+")
                                  .Cast<Match>()
                                  .Select(m => m.Value.Trim())
                                  .ToArray();
 
-                exePath = parts.Length > 0
-                    ? ResolveExeOnPath(
-                        parts[0]
-                            .Trim('"')
-                    ) // ★​resolve right here
-                    : string.Empty;
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs: Checking whether the variable 'parts' has a null reference for a value..."
+                );
 
-                arguments = parts.Length > 1
-                    ? string.Join(" ", parts.Skip(1))
-                    : string.Empty;
+                // Check to see if the variable, parts, is null. If it is,
+                // send an error to the log file and quit, returning from the method.
+                if (parts == null)
+                {
+                    // the variable parts is required to have a valid object reference.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.SplitExeAndArgs: *** ERROR ***  The 'parts' variable has a null reference.  Stopping..."
+                    );
+
+                    // stop.
+                    return;
+                }
+
+                // We can use the variable, parts, because it's not set to a null reference.
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs: *** SUCCESS *** The 'parts' variable has a valid object reference for its value.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs *** INFO: Checking whether the array, 'parts', has greater than zero elements..."
+                );
+
+                // Check whether the array, 'parts', has greater than zero elements.  If it is empty,
+                // then write an error message to the log file, and then terminate the execution of this method.
+                // It is preferred for the array to have greater than zero elements.
+                if (parts.Length <= 0)
+                {
+                    // The array, 'parts', has zero elements, and we can't proceed if this is so.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.SplitExeAndArgs *** ERROR *** The array, 'parts', has zero elements.  Stopping..."
+                    );
+
+                    // stop.
+                    return;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"Run.SplitExeAndArgs *** SUCCESS *** {parts.Length} element(s) were found in the 'parts' array.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** FYI *** Trying to parse the pathname of the `.exe` file from the command..."
+                );
+
+                // If the command starts with a quoted token, take that as the exe.
+                var trimmedCommand = command.TrimStart();
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "Run.SplitExeAndArgs: Checking whether the variable, 'trimmedCommand', has a null reference for a value, or is blank..."
+                );
+
+                // Check to see if the required variable, 'trimmedCommand', is null or blank. If it is, 
+                // then send an  error to the log file and then terminate the execution of this
+                // method.
+                if (string.IsNullOrWhiteSpace(trimmedCommand))
+                {
+                    // the variable trimmedCommand is required.
+                    DebugUtils.WriteLine(
+                        DebugLevel.Error,
+                        "Run.SplitExeAndArgs: *** ERROR *** The variable, 'trimmedCommand', has a null reference or is blank.  Stopping..."
+                    );
+
+                    // stop.
+                    return;
+                }
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    $"Run.SplitExeAndArgs: *** SUCCESS *** {trimmedCommand.Length} B of data appear to be present in the variable, 'trimmedCommand'.  Proceeding..."
+                );
+
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** FYI *** Checking whether the 'trimmedCommand' variable starts with a double-quote character..."
+                );
+
+                if (trimmedCommand.StartsWith("\""))
+                {
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** FYI *** The 'trimmedCommand' variable starts with a double-quote character.  Parsing the quoted `.exe` path from it..."
+                    );
+
+                    // first token should be the quoted exe path
+                    var exeCandidate = parts[0]
+                                       .Trim()
+                                       .Trim('"');
+
+                    // Dump the variable exeCandidate to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"exeCandidate = '{exeCandidate}'"
+                    );
+
+                    exePath = ResolveExeOnPath(exeCandidate);
+
+                    // Dump the variable exePath to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"exePath = '{exePath}'"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "Run.SplitExeAndArgs: Checking whether the variable, 'exePath', has a null reference for a value, or is blank..."
+                    );
+
+                    // Check to see if the required variable, 'exePath', is null or blank. If it is, 
+                    // then send an  error to the log file and then terminate the execution of this
+                    // method.
+                    if (string.IsNullOrWhiteSpace(exePath))
+                    {
+                        // the variable exePath is required.
+                        DebugUtils.WriteLine(
+                            DebugLevel.Error,
+                            "Run.SplitExeAndArgs: *** ERROR *** The variable, 'exePath', has a null reference or is blank.  Stopping..."
+                        );
+
+                        // stop.
+                        return;
+                    }
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"Run.SplitExeAndArgs: *** SUCCESS *** {exePath.Length} B of data appear to be present in the variable, 'exePath'.  Proceeding..."
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** FYI *** Seeing if there were any command-line argument(s) passed to the `.exe`..."
+                    );
+
+                    arguments = parts.Length > 1
+                        ? string.Join(" ", parts.Skip(1))
+                        : string.Empty;
+
+                    // Dump the variable arguments to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"arguments = '{arguments}'"
+                    );
+
+                    return;
+                }
+
+                // For unquoted input, try progressively longer prefixes of tokens as the exe path.
+                // This handles cases like: C:\Program Files\Git\cmd\git.exe status --porcelain
+                var found = false;
+                for (var i = 0; i < parts.Length && !found; i++)
+                {
+                    var candidate = string.Join(" ", parts.Take(i + 1))
+                                          .Trim();
+                    var candidateTrim = candidate.Trim('"');
+
+                    // Try to resolve candidate (may return same string if unresolved)
+                    var resolved = ResolveExeOnPath(candidateTrim);
+
+                    // If either the candidate (as given) exists or the resolved path exists, accept it.
+                    if (DoesFileExist(candidateTrim) || DoesFileExist(resolved))
+                    {
+                        exePath = DoesFileExist(resolved)
+                            ? resolved
+                            : candidateTrim;
+                        arguments = parts.Length > i + 1
+                            ? string.Join(" ", parts.Skip(i + 1))
+                            : string.Empty;
+                        found = true;
+                        break;
+                    }
+                }
+
+                // Fallback: use original simple logic (resolve first token) if nothing matched above.
+                if (!found)
+                {
+                    exePath = parts.Length > 0
+                        ? ResolveExeOnPath(
+                            parts[0]
+                                .Trim('"')
+                        )
+                        : string.Empty;
+                    arguments = parts.Length > 1
+                        ? string.Join(" ", parts.Skip(1))
+                        : string.Empty;
+                }
             }
             catch (Exception ex)
             {
