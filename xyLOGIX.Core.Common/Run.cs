@@ -823,45 +823,136 @@ namespace xyLOGIX.Core.Common
                     return;
                 }
 
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** FYI *** The pathname of the application does not appear to be quoted. Iteratively parsing it until we have the whole thing (in case the pathname has spaces)..."
+                );
+
                 // For unquoted input, try progressively longer prefixes of tokens as the exe path.
                 // This handles cases like: C:\Program Files\Git\cmd\git.exe status --porcelain
                 var found = false;
+
                 for (var i = 0; i < parts.Length && !found; i++)
                 {
                     var candidate = string.Join(" ", parts.Take(i + 1))
                                           .Trim();
+
+                    // Dump the variable candidate to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"candidate = '{candidate}'"
+                    );
+
                     var candidateTrim = candidate.Trim('"');
+
+                    // Dump the variable candidateTrim to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"candidateTrim = '{candidateTrim}'"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $"*** FYI *** Attempting to resolve the candidate, '{candidateTrim}', to a fully-qualified file on the current PATH..."
+                    );
 
                     // Try to resolve candidate (may return same string if unresolved)
                     var resolved = ResolveExeOnPath(candidateTrim);
 
-                    // If either the candidate (as given) exists or the resolved path exists, accept it.
-                    if (DoesFileExist(candidateTrim) || DoesFileExist(resolved))
+                    // Dump the variable resolved to the log
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"resolved = '{resolved}'"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** INFO: Checking whether the variable, 'resolved', appears to have a null or blank value..."
+                    );
+
+                    // Check to see if the required variable, 'resolved', appears to have a null 
+                    // or blank value. If it does, then send an error to the log file and then 
+                    // skip to the next loop iteration.
+                    if (string.IsNullOrWhiteSpace(resolved))
                     {
-                        exePath = DoesFileExist(resolved)
-                            ? resolved
-                            : candidateTrim;
-                        arguments = parts.Length > i + 1
-                            ? string.Join(" ", parts.Skip(i + 1))
-                            : string.Empty;
-                        found = true;
-                        break;
+                        // The variable, 'resolved', appears to have a null or blank value.  This is not desirable.
+                        DebugUtils.WriteLine(
+                            DebugLevel.Error,
+                            "*** ERROR: The variable, 'resolved', appears to have a null or blank value.  Skipping to the next candidate..."
+                        );
+
+                        // skip to the next iteration of this loop.
+                        continue;
                     }
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** SUCCESS *** The variable, 'resolved', seems to have a non-blank value.  Proceeding..."
+                    );
+
+                    // If either the candidate (as given) exists or the resolved path exists, accept it.
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** Run.SplitExeAndArgs: Checking whether the candidate or resolved string(s) contain a pathname that exists..."
+                    );
+
+                    // Check to see whether the candidate or resolved string(s) contain a pathname that exists.
+                    // If this is not the case, then write an error message to the log file,
+                    // and then skip to the next iteration of the loop.
+                    if (!DoesFileExist(candidateTrim) &&
+                        !DoesFileExist(resolved))
+                    {
+                        // The candidate and resolved string(s) both do not provide sufficient information to find the application that is to be run.  This is not desirable.
+                        DebugUtils.WriteLine(
+                            DebugLevel.Error,
+                            "*** ERROR *** The candidate and resolved string(s) both do not provide sufficient information to find the application that is to be run.  Skipping to the next candidate..."
+                        );
+
+                        // skip to the next loop iteration.
+                        continue;
+                    }
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "Run.SplitExeAndArgs: *** SUCCESS *** The candidate or resolved string(s) contain a pathname that exists.  Proceeding..."
+                    );
+
+                    DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** Attempting to use the candidate or resolved string(s) as the executable path...");
+
+                    exePath = DoesFileExist(resolved)
+                        ? resolved
+                        : candidateTrim;
+
+                    // Dump the variable exePath to the log
+                    DebugUtils.WriteLine(DebugLevel.Debug, $"exePath = '{exePath}'");
+
+                    DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** Attempting to parse any command-line argument(s) passed to the `.exe`...");
+
+                    arguments = parts.Length > i + 1
+                        ? string.Join(" ", parts.Skip(i + 1))
+                        : string.Empty;
+
+                    // Dump the variable arguments to the log
+                    DebugUtils.WriteLine(DebugLevel.Debug, $"arguments = '{arguments}'");
+
+                    found = true;
+                    break;
                 }
 
+                DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** As a fallback, using the original simple logic (resolve first token) if nothing matched above...");
+
                 // Fallback: use original simple logic (resolve first token) if nothing matched above.
-                if (!found)
-                {
-                    exePath = parts.Length > 0
-                        ? ResolveExeOnPath(
-                            parts[0]
-                                .Trim('"')
-                        )
-                        : string.Empty;
-                    arguments = parts.Length > 1
-                        ? string.Join(" ", parts.Skip(1))
-                        : string.Empty;
-                }
+                if (found) return;
+
+                exePath = parts.Length > 0
+                    ? ResolveExeOnPath(
+                        parts[0]
+                            .Trim('"')
+                    )
+                    : string.Empty;
+
+
+                arguments = parts.Length > 1
+                    ? string.Join(" ", parts.Skip(1))
+                    : string.Empty;
             }
             catch (Exception ex)
             {
@@ -870,6 +961,12 @@ namespace xyLOGIX.Core.Common
 
                 exePath = arguments = string.Empty;
             }
+
+            // Dump the variable exePath to the log
+            DebugUtils.WriteLine(DebugLevel.Debug, $"exePath = '{exePath}'");
+
+            // Dump the variable arguments to the log
+            DebugUtils.WriteLine(DebugLevel.Debug, $"arguments = '{arguments}'");
         }
     }
 }
