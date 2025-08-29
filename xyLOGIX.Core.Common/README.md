@@ -22,6 +22,7 @@
   - [Command(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-Command-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.Command(System.String,System.String,System.Boolean)')
   - [CommandWithOutput(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.CommandWithOutput(System.String,System.String,System.Boolean)')
   - [DetermineCurrentWorkingDirectory(folder)](#M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String- 'xyLOGIX.Core.Common.Run.DetermineCurrentWorkingDirectory(System.String)')
+  - [DoesFileExist(pathnamne)](#M-xyLOGIX-Core-Common-Run-DoesFileExist-System-String- 'xyLOGIX.Core.Common.Run.DoesFileExist(System.String)')
   - [ResolveExeOnPath(pathname)](#M-xyLOGIX-Core-Common-Run-ResolveExeOnPath-System-String- 'xyLOGIX.Core.Common.Run.ResolveExeOnPath(System.String)')
   - [SplitExeAndArgs(command,exePath,arguments)](#M-xyLOGIX-Core-Common-Run-SplitExeAndArgs-System-String,System-String@,System-String@- 'xyLOGIX.Core.Common.Run.SplitExeAndArgs(System.String,System.String@,System.String@)')
 
@@ -281,6 +282,26 @@ execution.
 
 If an exception occurs, it logs the exception details and defaults to returning
 the current directory.
+
+<a name='M-xyLOGIX-Core-Common-Run-DoesFileExist-System-String-'></a>
+### DoesFileExist(pathnamne) `method`
+
+##### Summary
+
+Determines whether the file having the specified `pathnamne`
+exists on the file system.
+
+##### Returns
+
+`true` if the file having the specified
+`pathnamne` exists, `false` otherwwise.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| pathnamne | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that contains the fully-qualified
+pathname of a file that is to be searched for. |
 
 <a name='M-xyLOGIX-Core-Common-Run-ResolveExeOnPath-System-String-'></a>
 ### ResolveExeOnPath(pathname) `method`
