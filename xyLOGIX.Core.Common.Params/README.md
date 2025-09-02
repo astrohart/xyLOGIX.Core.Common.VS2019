@@ -79,7 +79,7 @@ Gets or sets a reference to an instance of
 ##### Summary
 
 Gets or sets an enumerable collection of objects to be passed to the
-[Delegate](#P-Core-Common-Params-ActionParams-Delegate 'Core.Common.Params.ActionParams.Delegate') property.
+[Delegate](#P-Delegate 'Delegate') property.
 
 <a name='M-xyLOGIX-Core-Common-Params-ActionParams-#cctor'></a>
 ### #cctor() `method`
