@@ -1,4 +1,5 @@
 ﻿using PostSharp.Patterns.Diagnostics;
+using PostSharp.Patterns.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace xyLOGIX.Core.Common.Params
     /// POCO that tracks a <see cref="T:System.Delegate" /> and any of its
     /// arguments.
     /// </summary>
+    [ExplicitlySynchronized]
     public class ActionParams : IActionParams
     {
         /// <summary>
@@ -79,7 +81,7 @@ namespace xyLOGIX.Core.Common.Params
 
         /// <summary>
         /// Gets or sets an enumerable collection of objects to be passed to the
-        /// <see cref="P:Core.Common.Params.ActionParams.Delegate" /> property.
+        /// <see cref="P:Delegate" /> property.
         /// </summary>
         public IEnumerable<object> Arguments
         {
