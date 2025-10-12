@@ -6,7 +6,7 @@ using xyLOGIX.Core.Common.Params.Interfaces;
 
 namespace xyLOGIX.Core.Common
 {
-    /// <summary> Exposes static methods to perform actions. </summary>
+    /// <summary> Exposes static method(s) to perform actions. </summary>
     public static class Do
     {
         /// <summary>
