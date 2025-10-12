@@ -35,7 +35,7 @@ xyLOGIX.Core.Common
 
 ##### Summary
 
-Exposes static methods to perform actions.
+Exposes static method(s) to perform actions.
 
 <a name='M-xyLOGIX-Core-Common-Do-ToActionParams-System-Object-'></a>
 ### ToActionParams() `method`
