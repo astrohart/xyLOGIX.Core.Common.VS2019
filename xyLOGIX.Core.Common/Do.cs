@@ -10,28 +10,6 @@ namespace xyLOGIX.Core.Common
     public static class Do
     {
         /// <summary>
-        /// Executes the specified <paramref name="action" /> in a separate
-        /// worker thread until the <paramref name="action" /> succeeds.
-        /// </summary>
-        /// <param name="action">
-        /// (Required.) A <see cref="T:System.Delegate" /> that
-        /// points to the code that should be executed.
-        /// </param>
-        /// <param name="args">(Optional.) Arguments to be passed to the executed code.</param>
-        public static void UntilSucceeds(
-            [NotLogged] Delegate action,
-            [NotLogged] params object[] args
-        )
-        {
-            if (action == null) return; // do nothing with null input
-            var t = new Thread(UntilSucceedsThread);
-            t.Start(
-                MakeNewActionParams.For(action)
-                                   .WithArguments(args)
-            );
-        }
-
-        /// <summary>
         /// Casts the specified <paramref name="arg" /> to an instance of an object that
         /// implements the <see cref="T:Core.Common.Params.Interfaces.IActionParams" />
         /// interface, that is, if the cast is possible; otherwise, <see langword="null" />
@@ -55,6 +33,28 @@ namespace xyLOGIX.Core.Common
             if (arg is IActionParams actionParams)
                 result = actionParams;
             return result;
+        }
+
+        /// <summary>
+        /// Executes the specified <paramref name="action" /> in a separate
+        /// worker thread until the <paramref name="action" /> succeeds.
+        /// </summary>
+        /// <param name="action">
+        /// (Required.) A <see cref="T:System.Delegate" /> that
+        /// points to the code that should be executed.
+        /// </param>
+        /// <param name="args">(Optional.) Arguments to be passed to the executed code.</param>
+        public static void UntilSucceeds(
+            [NotLogged] Delegate action,
+            [NotLogged] params object[] args
+        )
+        {
+            if (action == null) return; // do nothing with null input
+            var t = new Thread(UntilSucceedsThread);
+            t.Start(
+                MakeNewActionParams.For(action)
+                                   .WithArguments(args)
+            );
         }
 
         /// Thread to execute the specified code until it stops throwing exceptions. (Required.) Reference to an instance of an object that interface that contains the metadata on the code to be executed.
