@@ -915,29 +915,42 @@ namespace xyLOGIX.Core.Common
                         "Run.SplitExeAndArgs: *** SUCCESS *** The candidate or resolved string(s) contain a pathname that exists.  Proceeding..."
                     );
 
-                    DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** Attempting to use the candidate or resolved string(s) as the executable path...");
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** FYI *** Attempting to use the candidate or resolved string(s) as the executable path..."
+                    );
 
                     exePath = DoesFileExist(resolved)
                         ? resolved
                         : candidateTrim;
 
                     // Dump the variable exePath to the log
-                    DebugUtils.WriteLine(DebugLevel.Debug, $"exePath = '{exePath}'");
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"exePath = '{exePath}'"
+                    );
 
-                    DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** Attempting to parse any command-line argument(s) passed to the `.exe`...");
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        "*** FYI *** Attempting to parse any command-line argument(s) passed to the `.exe`..."
+                    );
 
                     arguments = parts.Length > i + 1
                         ? string.Join(" ", parts.Skip(i + 1))
                         : string.Empty;
 
                     // Dump the variable arguments to the log
-                    DebugUtils.WriteLine(DebugLevel.Debug, $"arguments = '{arguments}'");
+                    DebugUtils.WriteLine(
+                        DebugLevel.Debug, $"arguments = '{arguments}'"
+                    );
 
                     found = true;
                     break;
                 }
 
-                DebugUtils.WriteLine(DebugLevel.Info, $"*** FYI *** As a fallback, using the original simple logic (resolve first token) if nothing matched above...");
+                DebugUtils.WriteLine(
+                    DebugLevel.Info,
+                    "*** FYI *** As a fallback, using the original simple logic (resolve first token) if nothing matched above..."
+                );
 
                 // Fallback: use original simple logic (resolve first token) if nothing matched above.
                 if (found) return;
@@ -966,7 +979,9 @@ namespace xyLOGIX.Core.Common
             DebugUtils.WriteLine(DebugLevel.Debug, $"exePath = '{exePath}'");
 
             // Dump the variable arguments to the log
-            DebugUtils.WriteLine(DebugLevel.Debug, $"arguments = '{arguments}'");
+            DebugUtils.WriteLine(
+                DebugLevel.Debug, $"arguments = '{arguments}'"
+            );
         }
     }
 }
