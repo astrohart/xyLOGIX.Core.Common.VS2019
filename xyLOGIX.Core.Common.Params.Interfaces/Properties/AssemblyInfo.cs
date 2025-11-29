@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("xyLOGIX.Core.Common.Params.Interfaces")]
 [assembly:
     AssemblyDescription(
-        "Provides objects and functionality to host parameter objects used in delegates defined in the xyLOGIX.Core.Common module.  This particular library holds the C# interfaces for this component."
+        "Provides object(s) and functionality to host parameter objects used in delegates defined in the xyLOGIX.Core.Common module.  This particular library holds the C# interfaces for this component."
     )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("xyLOGIX, LLC")]
