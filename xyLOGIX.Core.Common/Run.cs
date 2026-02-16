@@ -95,7 +95,7 @@ namespace xyLOGIX.Core.Common
 
                 using (var proc = new Process())
                 {
-                    var workDir =
+                    var workingDirectoryToUse =
                         DetermineCurrentWorkingDirectory(workingDirectory);
 
                     if (useShell)
@@ -111,7 +111,7 @@ namespace xyLOGIX.Core.Common
                         proc.StartInfo.Arguments = args;
                     }
 
-                    proc.StartInfo.WorkingDirectory = workDir;
+                    proc.StartInfo.WorkingDirectory = workingDirectoryToUse;
                     proc.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
@@ -121,10 +121,19 @@ namespace xyLOGIX.Core.Common
                     );
 
                     Console.WriteLine(
-                        $@"Run.Command: {proc.StartInfo.WorkingDirectory}\> {command}"
+                        $@"Run.Command: {workingDirectoryToUse}\> {command}"
+                    );
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info,
+                        $@"Run.Command: {workingDirectoryToUse}\> {command}"
                     );
 
                     Console.WriteLine("Run.Command: [no output will be read]");
+
+                    DebugUtils.WriteLine(
+                        DebugLevel.Info, "Run.Command: [no output will be read]"
+                    );
 
                     proc.Start();
                     proc.WaitForExit();
