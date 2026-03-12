@@ -90,8 +90,8 @@ loop, for example.
 
 
 
-Uses `cmd /C … 2>&1` so both streams arrive in order on
-`STDOUT`; no lambdas → no CS1621.
+Uses `cmd /C ??? 2>&1` so both streams arrive in order on
+`STDOUT`; no lambdas ??? no CS1621.
 
 <a name='T-xyLOGIX-Core-Common-Interfaces-Properties-Resources'></a>
 ## Resources `type`

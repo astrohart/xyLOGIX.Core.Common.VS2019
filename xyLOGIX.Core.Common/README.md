@@ -243,8 +243,8 @@ loop, for example.
 
 
 
-Uses `cmd /C … 2>&1` so both streams arrive in order on
-`STDOUT`; no lambdas → no CS1621.
+Uses `cmd /C ??? 2>&1` so both streams arrive in order on
+`STDOUT`; no lambdas ??? no CS1621.
 
 <a name='M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String-'></a>
 ### DetermineCurrentWorkingDirectory(folder) `method`
