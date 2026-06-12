@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("xyLOGIX Common Core Parameter Objects")]
 [assembly:
     AssemblyCopyright(
-        "Copyright © 2024 by xyLOGIX, LLC.  All rights reserved."
+        "Copyright © 2024-26 by xyLOGIX, LLC.  All rights reserved."
     )]
 [assembly:
     AssemblyTrademark(
