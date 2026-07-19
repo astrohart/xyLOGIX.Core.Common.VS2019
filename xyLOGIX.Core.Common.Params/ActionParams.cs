@@ -16,12 +16,13 @@ namespace xyLOGIX.Core.Common.Params
     public class ActionParams : IActionParams
     {
         /// <summary>
-        /// Initializes static data or performs actions that need to be performed once only
-        /// for the <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" /> class.
+        /// Initializes static data or performs actions that need to be performed
+        /// once only for the <see cref="T:xyLOGIX.Core.Common.Params.ActionParams" />
+        /// class.
         /// </summary>
         /// <remarks>
-        /// This constructor is called automatically prior to the first instance being
-        /// created or before any static members are referenced.
+        /// This constructor is called automatically prior to the first instance
+        /// being created or before any static members are referenced.
         /// <para />
         /// We've decorated this constructor with the <c>[Log(AttributeExclude = true)]</c>
         /// attribute in order to simplify the logging output.
@@ -60,10 +61,7 @@ namespace xyLOGIX.Core.Common.Params
         /// value.
         /// </exception>
         [Log(AttributeExclude = true)]
-        public ActionParams(
-            [NotLogged] Delegate action,
-            [NotLogged] params object[] args
-        )
+        public ActionParams([NotLogged] Delegate action, [NotLogged] params object[] args)
         {
             Action = action ?? throw new ArgumentNullException(nameof(action));
             Arguments = !args.Any() ? Enumerable.Empty<object>() : args;
@@ -73,11 +71,7 @@ namespace xyLOGIX.Core.Common.Params
         /// Gets or sets a reference to an instance of
         /// <see cref="T:System.Delegate" /> that is to be invoked.
         /// </summary>
-        public Delegate Action
-        {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
-        }
+        public Delegate Action { [DebuggerStepThrough] get; [DebuggerStepThrough] set; }
 
         /// <summary>
         /// Gets or sets an enumerable collection of objects to be passed to the
@@ -85,8 +79,10 @@ namespace xyLOGIX.Core.Common.Params
         /// </summary>
         public IEnumerable<object> Arguments
         {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
+            [DebuggerStepThrough]
+            get;
+            [DebuggerStepThrough]
+            set;
         }
 
         /// Invokes the
@@ -107,9 +103,7 @@ namespace xyLOGIX.Core.Common.Params
         {
             if (Action == null)
                 return null;
-            return Arguments.Any()
-                ? Action.DynamicInvoke(Arguments)
-                : Action.DynamicInvoke();
+            return Arguments.Any() ? Action.DynamicInvoke(Arguments) : Action.DynamicInvoke();
         }
     }
 }

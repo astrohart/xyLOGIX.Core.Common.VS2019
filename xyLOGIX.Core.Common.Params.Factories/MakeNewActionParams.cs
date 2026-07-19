@@ -14,14 +14,14 @@ namespace xyLOGIX.Core.Common.Params.Factories
     public static class MakeNewActionParams
     {
         /// <summary>
-        /// Initializes static data or performs actions that need to be performed once only
-        /// for the
+        /// Initializes static data or performs actions that need to be performed
+        /// once only for the
         /// <see cref="T:xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams" />
         /// class.
         /// </summary>
         /// <remarks>
-        /// This constructor is called automatically prior to the first instance being
-        /// created or before any static members are referenced.
+        /// This constructor is called automatically prior to the first instance
+        /// being created or before any static members are referenced.
         /// <para />
         /// We've decorated this constructor with the <c>[Log(AttributeExclude = true)]</c>
         /// attribute in order to simplify the logging output.
@@ -30,8 +30,8 @@ namespace xyLOGIX.Core.Common.Params.Factories
         static MakeNewActionParams() { }
 
         /// <summary>
-        /// Dynamically invokes (late-bound) the method represented by the
-        /// current delegate.
+        /// Dynamically invokes (late-bound) the method represented by the current
+        /// delegate.
         /// </summary>
         /// <param name="self">
         /// (Required.) Reference to an instance of an object that

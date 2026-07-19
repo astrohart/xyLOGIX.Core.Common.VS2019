@@ -4,26 +4,25 @@ using System.Net;
 
 namespace xyLOGIX.Core.Common
 {
-    /// <summary> Methods to decide whether certain facts are true. </summary>
+    /// <summary>Methods to decide whether certain facts are true.</summary>
     public class IsThis
     {
         /// <summary>
-        /// Empty, <see langword="static" /> constructor to prohibit direct allocation of
-        /// this
-        /// class.
+        /// Empty, <see langword="static" /> constructor to prohibit direct
+        /// allocation of this class.
         /// </summary>
         static IsThis() { }
 
         /// Empty,
         /// <see langword="private" />
         /// constructor to prohibit direct allocation of this class.
-        protected IsThis() { }
+        protected IsThis()
+        { }
 
         /// Gets a reference to the one and only instance of
         /// <see cref="T:xyLOGIX.Core.Common.IsThis" />
         /// .
-        public static IsThis Machine { [DebuggerStepThrough] get; } =
-            new IsThis();
+        public static IsThis Machine { [DebuggerStepThrough] get; } = new IsThis();
 
         /// Determines whether this computer is connected to the Internet.
         /// <returns>
@@ -52,7 +51,6 @@ namespace xyLOGIX.Core.Common
                     url = "https://www.google.com/";
                 }
 
-
                 using (var client = new WebClient())
                 {
                     var response = client.DownloadString(url);
@@ -62,8 +60,8 @@ namespace xyLOGIX.Core.Common
             catch
             {
                 /*
-                 * If ANY exception occurs -- it does not matter
-                 * which exception -- then return FALSE;
+                 * If ANY exception occurs -- it does not matter which exception -- then return
+                 * FALSE;
                  */
 
                 result = false;

@@ -13,9 +13,9 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// <paramref name="command" />
         /// but does not return the output.
         /// <param name="command">
-        /// (Required.) String containing the command to execute.
-        /// May be anything you can type into the <c>cmd</c> prompt, and may have
-        /// environment variables.
+        /// (Required.) String containing the command to execute. May
+        /// be anything you can type into the <c>cmd</c> prompt, and may have environment
+        /// variables.
         /// </param>
         /// <param name="workingDirectory">
         /// (Required.) A <see cref="T:System.String" />
@@ -23,11 +23,11 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// command.
         /// </param>
         /// <param name="useShell">
-        /// (Optional.) Set to <see langword="true" /> to use the Command Interpreter to
-        /// execute the command; otherwise, <see langword="false" /> to directly execute
-        /// the specified <paramref name="command" /> after splitting it on spaces,
-        /// assuming that the first space-delimited token is the name of an executable
-        /// file, and the rest of the token(s) are its argument(s).
+        /// (Optional.) Set to <see langword="true" /> to use the
+        /// Command Interpreter to execute the command; otherwise, <see langword="false" />
+        /// to directly execute the specified <paramref name="command" /> after splitting
+        /// it on spaces, assuming that the first space-delimited token is the name of an
+        /// executable file, and the rest of the token(s) are its argument(s).
         /// <para />
         /// The default value of this parameter is <see langword="true" />.
         /// </param>
@@ -50,26 +50,25 @@ namespace xyLOGIX.Core.Common.Interfaces
         /// writes to <c>STDOUT</c> or <c>STDERR</c> as soon as the line appears.
         /// </summary>
         /// <param name="command">
-        /// (Required.) Exact command string as you would type in <c>cmd.exe</c>.
-        /// Environment variables are allowed.
+        /// (Required.) Exact command string as you would type in
+        /// <c>cmd.exe</c>. Environment variables are allowed.
         /// </param>
         /// <param name="workingDirectory">
-        /// Optional working directory.  Falls back to
+        /// Optional working directory. Falls back to
         /// <see cref="P:System.Environment.CurrentDirectory" /> when blank or invalid.
         /// </param>
         /// <param name="useShell">
-        /// (Optional.) Set to <see langword="true" /> to use the Command Interpreter to
-        /// execute the command; otherwise, <see langword="false" /> to directly execute
-        /// the specified <paramref name="command" /> after splitting it on spaces,
-        /// assuming that the first space-delimited token is the name of an executable
-        /// file, and the rest of the token(s) are its argument(s).
+        /// (Optional.) Set to <see langword="true" /> to use the
+        /// Command Interpreter to execute the command; otherwise, <see langword="false" />
+        /// to directly execute the specified <paramref name="command" /> after splitting
+        /// it on spaces, assuming that the first space-delimited token is the name of an
+        /// executable file, and the rest of the token(s) are its argument(s).
         /// <para />
         /// The default value of this parameter is <see langword="true" />.
         /// </param>
         /// <remarks>
-        /// As this method is an iterator, it will not actually get called
-        /// until it is enumerated, say, in a <see langword="foreach" />
-        /// loop, for example.
+        /// As this method is an iterator, it will not actually get called until
+        /// it is enumerated, say, in a <see langword="foreach" /> loop, for example.
         /// <para />
         /// Uses <c>cmd /C … 2&gt;&amp;1</c> so both streams arrive in order on
         /// <c>STDOUT</c>; no lambdas → no CS1621.

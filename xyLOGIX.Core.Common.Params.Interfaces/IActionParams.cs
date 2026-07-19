@@ -15,20 +15,12 @@ namespace xyLOGIX.Core.Common.Params.Interfaces
         /// Gets or sets a reference to an instance of
         /// <see cref="T:System.Delegate" /> that is to be invoked.
         /// </summary>
-        Delegate Action
-        {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
-        }
+        Delegate Action { [DebuggerStepThrough] get; [DebuggerStepThrough] set; }
 
         /// Gets or sets an array of objects to be passed to the
         /// <see cref="P:Core.Common.Params.ActionParams.Delegate" />
         /// property.
-        IEnumerable<object> Arguments
-        {
-            [DebuggerStepThrough] get;
-            [DebuggerStepThrough] set;
-        }
+        IEnumerable<object> Arguments { [DebuggerStepThrough] get; [DebuggerStepThrough] set; }
 
         /// Invokes the
         /// <see cref="T:System.Delegate" />

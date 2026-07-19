@@ -6,7 +6,7 @@ using xyLOGIX.Core.Common.Params.Interfaces;
 
 namespace xyLOGIX.Core.Common
 {
-    /// <summary> Exposes static method(s) to perform actions. </summary>
+    /// <summary>Exposes static method(s) to perform actions.</summary>
     public static class Do
     {
         /// <summary>
@@ -36,12 +36,12 @@ namespace xyLOGIX.Core.Common
         }
 
         /// <summary>
-        /// Executes the specified <paramref name="action" /> in a separate
-        /// worker thread until the <paramref name="action" /> succeeds.
+        /// Executes the specified <paramref name="action" /> in a separate worker
+        /// thread until the <paramref name="action" /> succeeds.
         /// </summary>
         /// <param name="action">
-        /// (Required.) A <see cref="T:System.Delegate" /> that
-        /// points to the code that should be executed.
+        /// (Required.) A <see cref="T:System.Delegate" /> that points
+        /// to the code that should be executed.
         /// </param>
         /// <param name="args">(Optional.) Arguments to be passed to the executed code.</param>
         public static void UntilSucceeds(
