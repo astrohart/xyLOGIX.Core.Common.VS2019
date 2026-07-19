@@ -153,7 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\xyLOGIX.Core.Debug.VS2019\xyLOGIX.Core.Debug\xyLOGIX.Core.Debug.csproj">
-      <Project>{89473237-3313-4d8c-92ab-ab19a4b25476}</Project>
+      <Project>{89473237-3313-4D8C-92AB-AB19A4B25476}</Project>
       <Name>xyLOGIX.Core.Debug</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\xyLOGIX.Core.Extensions.VS2019\xyLOGIX.Core.Extensions\xyLOGIX.Core.Extensions.csproj">
