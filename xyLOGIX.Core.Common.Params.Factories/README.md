@@ -30,8 +30,8 @@ returns references to them.
 
 ##### Summary
 
-Initializes static data or performs actions that need to be performed once only
-for the
+Initializes static data or performs actions that need to be performed
+once only for the
 [MakeNewActionParams](#T-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams')
 class.
 
@@ -41,8 +41,8 @@ This method has no parameters.
 
 ##### Remarks
 
-This constructor is called automatically prior to the first instance being
-created or before any static members are referenced.
+This constructor is called automatically prior to the first instance
+being created or before any static members are referenced.
 
 
 
@@ -54,8 +54,8 @@ attribute in order to simplify the logging output.
 
 ##### Summary
 
-Dynamically invokes (late-bound) the method represented by the
-current delegate.
+Dynamically invokes (late-bound) the method represented by the current
+delegate.
 
 ##### Returns
 

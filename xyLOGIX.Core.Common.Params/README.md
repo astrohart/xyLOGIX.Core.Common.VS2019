@@ -86,8 +86,9 @@ Gets or sets an enumerable collection of objects to be passed to the
 
 ##### Summary
 
-Initializes static data or performs actions that need to be performed once only
-for the [ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams') class.
+Initializes static data or performs actions that need to be performed
+once only for the [ActionParams](#T-xyLOGIX-Core-Common-Params-ActionParams 'xyLOGIX.Core.Common.Params.ActionParams')
+class.
 
 ##### Parameters
 
@@ -95,8 +96,8 @@ This method has no parameters.
 
 ##### Remarks
 
-This constructor is called automatically prior to the first instance being
-created or before any static members are referenced.
+This constructor is called automatically prior to the first instance
+being created or before any static members are referenced.
 
 
 

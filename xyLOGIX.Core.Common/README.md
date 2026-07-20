@@ -56,15 +56,15 @@ This method has no parameters.
 
 ##### Summary
 
-Executes the specified `action` in a separate
-worker thread until the `action` succeeds.
+Executes the specified `action` in a separate worker
+thread until the `action` succeeds.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) A [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that
-points to the code that should be executed. |
+| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) A [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that points
+to the code that should be executed. |
 | args | [System.Object[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object[] 'System.Object[]') | (Optional.) Arguments to be passed to the executed code. |
 
 <a name='M-xyLOGIX-Core-Common-Do-UntilSucceedsThread-System-Object-'></a>
@@ -100,9 +100,8 @@ This constructor has no parameters.
 
 ##### Summary
 
-Empty, `static` constructor to prohibit direct allocation of
-this
-class.
+Empty, `static` constructor to prohibit direct
+allocation of this class.
 
 ##### Parameters
 
@@ -169,8 +168,8 @@ This constructor has no parameters.
 
 ##### Summary
 
-Array of valid executable file extension(s) that this class will recognize and
-execute.
+Array of valid executable file extension(s) that this class will
+recognize and execute.
 
 <a name='P-xyLOGIX-Core-Common-Run-System'></a>
 ### System `property`
@@ -182,17 +181,17 @@ execute.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute.
-May be anything you can type into the `cmd` prompt, and may have
-environment variables. |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute. May
+be anything you can type into the `cmd` prompt, and may have environment
+variables. |
 | workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String')
 containing a fully-qualified pathname of the working directory for running the
 command. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to
-execute the command; otherwise, `false` to directly execute
-the specified `command` after splitting it on spaces,
-assuming that the first space-delimited token is the name of an executable
-file, and the rest of the token(s) are its argument(s).
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -221,15 +220,15 @@ writes to `STDOUT` or `STDERR` as soon as the line appears.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`.
-Environment variables are allowed. |
-| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory.  Falls back to
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in
+`cmd.exe`. Environment variables are allowed. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory. Falls back to
 [CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to
-execute the command; otherwise, `false` to directly execute
-the specified `command` after splitting it on spaces,
-assuming that the first space-delimited token is the name of an executable
-file, and the rest of the token(s) are its argument(s).
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -237,9 +236,8 @@ The default value of this parameter is `true`. |
 
 ##### Remarks
 
-As this method is an iterator, it will not actually get called
-until it is enumerated, say, in a `foreach`
-loop, for example.
+As this method is an iterator, it will not actually get called until
+it is enumerated, say, in a `foreach` loop, for example.
 
 
 
@@ -289,8 +287,8 @@ the current directory.
 
 ##### Summary
 
-Determines whether the file having the specified `pathnamne`
-exists on the file system.
+Determines whether the file having the specified
+`pathnamne` exists on the file system.
 
 ##### Returns
 
@@ -301,52 +299,51 @@ exists on the file system.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| pathnamne | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that contains the fully-qualified
-pathname of a file that is to be searched for. |
+| pathnamne | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that
+contains the fully-qualified pathname of a file that is to be searched for. |
 
 <a name='M-xyLOGIX-Core-Common-Run-ResolveExeOnPath-System-String-'></a>
 ### ResolveExeOnPath(pathname) `method`
 
 ##### Summary
 
-Attempts to resolve `pathname` to a fully-qualified file
-on the current `PATH`.
+Attempts to resolve `pathname` to a fully-qualified
+file on the current `PATH`.
 
 ##### Returns
 
-The resolved, fully-qualified path when the file is found; otherwise the
-original `pathname`.
+The resolved, fully-qualified path when the file is found; otherwise
+the original `pathname`.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| pathname | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Command name exactly as supplied by the caller (e.g. `git`,
-`git.exe`, `myTool.cmd`). |
+| pathname | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Command name exactly as supplied by the caller (e.g.
+`git`, `git.exe`, `myTool.cmd`). |
 
 ##### Remarks
 
-* Accepts executables with any of the four legacy extensions
-(`.bat`, `.cmd`, `.com`, `.pif`) or `.exe`.
-* When no extension is supplied, `.exe` is assumed.
-* Returns the original `pathname` if a match is not
-found.
+* Accepts executables with any of the four legacy extensions (
+`.bat`, `.cmd`, `.com`, `.pif`) or `.exe`. * When no
+extension is supplied, `.exe` is assumed. * Returns the original
+`pathname` if a match is not found.
 
 <a name='M-xyLOGIX-Core-Common-Run-SplitExeAndArgs-System-String,System-String@,System-String@-'></a>
 ### SplitExeAndArgs(command,exePath,arguments) `method`
 
 ##### Summary
 
-Splits the specified `command` into an executable path and
-its argument(s).
+Splits the specified `command` into an executable
+path and its argument(s).
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing the command to be
-executed. |
-| exePath | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that receives the fully-qualified
-pathname of the executable. |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing
+the command to be executed. |
+| exePath | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that
+receives the fully-qualified pathname of the executable. |
 | arguments | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that receives the
 argument(s) that are assumed to have been passed to the target executable. |

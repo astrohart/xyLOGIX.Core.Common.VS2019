@@ -29,17 +29,17 @@ methods.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute.
-May be anything you can type into the `cmd` prompt, and may have
-environment variables. |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute. May
+be anything you can type into the `cmd` prompt, and may have environment
+variables. |
 | workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String')
 containing a fully-qualified pathname of the working directory for running the
 command. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to
-execute the command; otherwise, `false` to directly execute
-the specified `command` after splitting it on spaces,
-assuming that the first space-delimited token is the name of an executable
-file, and the rest of the token(s) are its argument(s).
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -68,15 +68,15 @@ writes to `STDOUT` or `STDERR` as soon as the line appears.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`.
-Environment variables are allowed. |
-| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory.  Falls back to
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in
+`cmd.exe`. Environment variables are allowed. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory. Falls back to
 [CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to
-execute the command; otherwise, `false` to directly execute
-the specified `command` after splitting it on spaces,
-assuming that the first space-delimited token is the name of an executable
-file, and the rest of the token(s) are its argument(s).
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -84,9 +84,8 @@ The default value of this parameter is `true`. |
 
 ##### Remarks
 
-As this method is an iterator, it will not actually get called
-until it is enumerated, say, in a `foreach`
-loop, for example.
+As this method is an iterator, it will not actually get called until
+it is enumerated, say, in a `foreach` loop, for example.
 
 
 
