@@ -9,22 +9,7 @@ namespace xyLOGIX.Core.Common
     /// <summary>Exposes static method(s) to perform actions.</summary>
     public static class Do
     {
-        /// <summary>
-        /// Casts the specified <paramref name="arg" /> to an instance of an object that
-        /// implements the <see cref="T:Core.Common.Params.Interfaces.IActionParams" />
-        /// interface, that is, if the cast is possible; otherwise, <see langword="null" />
-        /// is returned.
-        /// <param name="arg">
-        /// (Required.) Reference to the instance of the object that is
-        /// to be cast.
-        /// </param>
-        /// <returns>
-        /// Reference to an instance of an object that implements the
-        /// <see cref="T:Core.Common.Params.Interfaces.IActionParams" /> interface, unless
-        /// the object refers to data not of that type; in which case,
-        /// <see langword="null" /> is returned.
-        /// </returns>
-        /// </summary>
+        /// <summary>Casts the specified <paramref name="arg" /> to an instance of an object that implements the <see cref="T:Core.Common.Params.Interfaces.IActionParams" /> interface, that is, if the cast is possible; otherwise, <see langword="null" /> is returned. <param name="arg">(Required.) Reference to the instance of the object that is to be cast.</param><returns>Reference to an instance of an object that implements the <see cref="T:Core.Common.Params.Interfaces.IActionParams" /> interface, unless the object refers to data not of that type; in which case, <see langword="null" /> is returned.</returns></summary>
         private static IActionParams ToActionParams([NotLogged] this object arg)
         {
             IActionParams result = default;
@@ -35,14 +20,8 @@ namespace xyLOGIX.Core.Common
             return result;
         }
 
-        /// <summary>
-        /// Executes the specified <paramref name="action" /> in a separate worker
-        /// thread until the <paramref name="action" /> succeeds.
-        /// </summary>
-        /// <param name="action">
-        /// (Required.) A <see cref="T:System.Delegate" /> that points
-        /// to the code that should be executed.
-        /// </param>
+        /// <summary>Executes the specified <paramref name="action" /> in a separate worker thread until the <paramref name="action" /> succeeds.</summary>
+        /// <param name="action">(Required.) A <see cref="T:System.Delegate" /> that points to the code that should be executed.</param>
         /// <param name="args">(Optional.) Arguments to be passed to the executed code.</param>
         public static void UntilSucceeds(
             [NotLogged] Delegate action,

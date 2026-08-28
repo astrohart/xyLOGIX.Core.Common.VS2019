@@ -7,10 +7,7 @@ namespace xyLOGIX.Core.Common
     /// <summary>Methods to decide whether certain facts are true.</summary>
     public class IsThis
     {
-        /// <summary>
-        /// Empty, <see langword="static" /> constructor to prohibit direct
-        /// allocation of this class.
-        /// </summary>
+        /// <summary>Empty, <see langword="static" /> constructor to prohibit direct allocation of this class.</summary>
         static IsThis() { }
 
         /// Empty,
@@ -25,10 +22,7 @@ namespace xyLOGIX.Core.Common
         public static IsThis Machine { [DebuggerStepThrough] get; } = new IsThis();
 
         /// Determines whether this computer is connected to the Internet.
-        /// <returns>
-        /// <see langword="true" /> if the machine is connected to the Internet;
-        /// <see langword="false" /> otherwise.
-        /// </returns>
+        /// <returns><see langword="true" /> if the machine is connected to the Internet; <see langword="false" /> otherwise.</returns>
         public bool ConnectedToTheInternet()
         {
             var result = false;
