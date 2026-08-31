@@ -20,14 +20,17 @@ xyLOGIX.Core.Common.Params.Interfaces
 
 ##### Summary
 
-Defines the publicly-exposed methods and properties of a POCO that carries information about a [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') and its arguments (if any).
+Defines the publicly-exposed methods and properties of a POCO that
+carries information about a [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') and its arguments
+(if any).
 
 <a name='P-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-Action'></a>
 ### Action `property`
 
 ##### Summary
 
-Gets or sets a reference to an instance of [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that is to be invoked.
+Gets or sets a reference to an instance of
+[Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that is to be invoked.
 
 <a name='P-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-Arguments'></a>
 ### Arguments `property`
@@ -37,7 +40,8 @@ Gets or sets a reference to an instance of [Delegate](http://msdn.microsoft.com/
 
 ##### Returns
 
-Any data that was returned by the [Action](#P-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-Action 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams.Action').
+Any data that was returned by the
+[Action](#P-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-Action 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams.Action').
 
 ##### Parameters
 
