@@ -4,6 +4,7 @@
 ## Contents
 
 - [Do](#T-xyLOGIX-Core-Common-Do 'xyLOGIX.Core.Common.Do')
+  - [#cctor()](#M-xyLOGIX-Core-Common-Do-#cctor 'xyLOGIX.Core.Common.Do.#cctor')
   - [ToActionParams()](#M-xyLOGIX-Core-Common-Do-ToActionParams-System-Object- 'xyLOGIX.Core.Common.Do.ToActionParams(System.Object)')
   - [UntilSucceeds(action,args)](#M-xyLOGIX-Core-Common-Do-UntilSucceeds-System-Delegate,System-Object[]- 'xyLOGIX.Core.Common.Do.UntilSucceeds(System.Delegate,System.Object[])')
   - [UntilSucceedsThread()](#M-xyLOGIX-Core-Common-Do-UntilSucceedsThread-System-Object- 'xyLOGIX.Core.Common.Do.UntilSucceedsThread(System.Object)')
@@ -19,6 +20,7 @@
   - [#ctor()](#M-xyLOGIX-Core-Common-Run-#ctor 'xyLOGIX.Core.Common.Run.#ctor')
   - [ValidExecutableExtensions](#F-xyLOGIX-Core-Common-Run-ValidExecutableExtensions 'xyLOGIX.Core.Common.Run.ValidExecutableExtensions')
   - [System](#P-xyLOGIX-Core-Common-Run-System 'xyLOGIX.Core.Common.Run.System')
+  - [#cctor()](#M-xyLOGIX-Core-Common-Run-#cctor 'xyLOGIX.Core.Common.Run.#cctor')
   - [Command(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-Command-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.Command(System.String,System.String,System.Boolean)')
   - [CommandWithOutput(command,workingDirectory,useShell)](#M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String,System-Boolean- 'xyLOGIX.Core.Common.Run.CommandWithOutput(System.String,System.String,System.Boolean)')
   - [DetermineCurrentWorkingDirectory(folder)](#M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String- 'xyLOGIX.Core.Common.Run.DetermineCurrentWorkingDirectory(System.String)')
@@ -37,12 +39,38 @@ xyLOGIX.Core.Common
 
 Exposes static method(s) to perform actions.
 
+<a name='M-xyLOGIX-Core-Common-Do-#cctor'></a>
+### #cctor() `method`
+
+##### Summary
+
+Initializes `static` data or performs actions that
+need to be performed once only for the [Do](#T-xyLOGIX-Core-Common-Do 'xyLOGIX.Core.Common.Do')
+class.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This constructor is called automatically prior to the first instance
+being created or before any `static` members are referenced.
+
+
+
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
+
 <a name='M-xyLOGIX-Core-Common-Do-ToActionParams-System-Object-'></a>
 ### ToActionParams() `method`
 
 ##### Summary
 
-Casts the specified `arg` to an instance of an object that implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface, that is, if the cast is possible; otherwise, `null` is returned.
+Casts the specified `arg` to an instance of an object that
+implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams')
+interface, that is, if the cast is possible; otherwise, `null`
+is returned.
 
 ##### Parameters
 
@@ -53,13 +81,15 @@ This method has no parameters.
 
 ##### Summary
 
-Executes the specified `action` in a separate worker thread until the `action` succeeds.
+Executes the specified `action` in a separate worker
+thread until the `action` succeeds.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) A [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that points to the code that should be executed. |
+| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) A [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that points
+to the code that should be executed. |
 | args | [System.Object[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object[] 'System.Object[]') | (Optional.) Arguments to be passed to the executed code. |
 
 <a name='M-xyLOGIX-Core-Common-Do-UntilSucceedsThread-System-Object-'></a>
@@ -83,9 +113,20 @@ Methods to decide whether certain facts are true.
 <a name='M-xyLOGIX-Core-Common-IsThis-#ctor'></a>
 ### #ctor() `constructor`
 
+##### Summary
+
+Constructs a new instance of
+[IsThis](#T-xyLOGIX-Core-Common-IsThis 'xyLOGIX.Core.Common.IsThis') and returns a reference to it.
+
 ##### Parameters
 
 This constructor has no parameters.
+
+##### Remarks
+
+This is an empty, `private` constructor to prohibit
+direct allocation of this class, as it is a `Singleton` object accessible
+via the [Instance](#P-xyLOGIX-Core-Common-IsThis-Instance 'xyLOGIX.Core.Common.IsThis.Instance') property.
 
 <a name='P-xyLOGIX-Core-Common-IsThis-Machine'></a>
 ### Machine `property`
@@ -95,18 +136,31 @@ This constructor has no parameters.
 
 ##### Summary
 
-Empty, `static` constructor to prohibit direct allocation of this class.
+Initializes `static` data or performs actions that
+need to be performed once only for the
+[IsThis](#T-xyLOGIX-Core-Common-IsThis 'xyLOGIX.Core.Common.IsThis') class.
 
 ##### Parameters
 
 This method has no parameters.
+
+##### Remarks
+
+This constructor is called automatically prior to the first instance
+being created or before any `static` members are referenced.
+
+
+
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
 
 <a name='M-xyLOGIX-Core-Common-IsThis-ConnectedToTheInternet'></a>
 ### ConnectedToTheInternet() `method`
 
 ##### Returns
 
-`true` if the machine is connected to the Internet; `false` otherwise.
+`true` if the machine is connected to the Internet;
+`false` otherwise.
 
 ##### Parameters
 
@@ -152,19 +206,54 @@ Methods and properties to encapsulate the execution of actions.
 <a name='M-xyLOGIX-Core-Common-Run-#ctor'></a>
 ### #ctor() `constructor`
 
+##### Summary
+
+Constructs a new instance of [Run](#T-xyLOGIX-Core-Common-Run 'xyLOGIX.Core.Common.Run')
+and returns a reference to it.
+
 ##### Parameters
 
 This constructor has no parameters.
+
+##### Remarks
+
+This is an empty, `private` constructor to prohibit
+direct allocation of this class, as it is a `Singleton` object accessible
+via the [Instance](#P-xyLOGIX-Core-Common-Run-Instance 'xyLOGIX.Core.Common.Run.Instance') property.
 
 <a name='F-xyLOGIX-Core-Common-Run-ValidExecutableExtensions'></a>
 ### ValidExecutableExtensions `constants`
 
 ##### Summary
 
-Array of valid executable file extension(s) that this class will recognize and execute.
+Array of valid executable file extension(s) that this class will
+recognize and execute.
 
 <a name='P-xyLOGIX-Core-Common-Run-System'></a>
 ### System `property`
+
+<a name='M-xyLOGIX-Core-Common-Run-#cctor'></a>
+### #cctor() `method`
+
+##### Summary
+
+Initializes `static` data or performs actions that
+need to be performed once only for the [Run](#T-xyLOGIX-Core-Common-Run 'xyLOGIX.Core.Common.Run')
+class.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This constructor is called automatically prior to the first instance
+being created or before any `static` members are referenced.
+
+
+
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
 
 <a name='M-xyLOGIX-Core-Common-Run-Command-System-String,System-String,System-Boolean-'></a>
 ### Command(command,workingDirectory,useShell) `method`
@@ -173,9 +262,17 @@ Array of valid executable file extension(s) that this class will recognize and e
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute. May be anything you can type into the `cmd` prompt, and may have environment variables. |
-| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing a fully-qualified pathname of the working directory for running the command. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to execute the command; otherwise, `false` to directly execute the specified `command` after splitting it on spaces, assuming that the first space-delimited token is the name of an executable file, and the rest of the token(s) are its argument(s).
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) String containing the command to execute. May
+be anything you can type into the `cmd` prompt, and may have environment
+variables. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String')
+containing a fully-qualified pathname of the working directory for running the
+command. |
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -183,26 +280,36 @@ The default value of this parameter is `true`. |
 
 ##### Remarks
 
-If this method is passed a `null` or blank value for the `command` parameter, it does nothing.
+If this method is passed a `null` or blank value for
+the `command` parameter, it does nothing.
 
 
 
-By default, no console window is displayed when the command is executed. By default, this method waits to return until the launched command has completed execution.
+By default, no console window is displayed when the command is executed. By
+default, this method waits to return until the launched command has completed
+execution.
 
 <a name='M-xyLOGIX-Core-Common-Run-CommandWithOutput-System-String,System-String,System-Boolean-'></a>
 ### CommandWithOutput(command,workingDirectory,useShell) `method`
 
 ##### Summary
 
-Runs an arbitrary `command` and yields each line it writes to `STDOUT` or `STDERR` as soon as the line appears.
+Runs an arbitrary `command` and yields each line it
+writes to `STDOUT` or `STDERR` as soon as the line appears.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in `cmd.exe`. Environment variables are allowed. |
-| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory. Falls back to [CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
-| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the Command Interpreter to execute the command; otherwise, `false` to directly execute the specified `command` after splitting it on spaces, assuming that the first space-delimited token is the name of an executable file, and the rest of the token(s) are its argument(s).
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) Exact command string as you would type in
+`cmd.exe`. Environment variables are allowed. |
+| workingDirectory | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional working directory. Falls back to
+[CurrentDirectory](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Environment.CurrentDirectory 'System.Environment.CurrentDirectory') when blank or invalid. |
+| useShell | [System.Boolean](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Boolean 'System.Boolean') | (Optional.) Set to `true` to use the
+Command Interpreter to execute the command; otherwise, `false`
+to directly execute the specified `command` after splitting
+it on spaces, assuming that the first space-delimited token is the name of an
+executable file, and the rest of the token(s) are its argument(s).
 
 
 
@@ -210,90 +317,114 @@ The default value of this parameter is `true`. |
 
 ##### Remarks
 
-As this method is an iterator, it will not actually get called until it is enumerated, say, in a `foreach` loop, for example.
+As this method is an iterator, it will not actually get called until
+it is enumerated, say, in a `foreach` loop, for example.
 
 
 
-Uses `cmd /C … 2>&1` so both streams arrive in order on `STDOUT`; no lambdas → no CS1621.
+Uses `cmd /C … 2>&1` so both streams arrive in order on
+`STDOUT`; no lambdas → no CS1621.
 
 <a name='M-xyLOGIX-Core-Common-Run-DetermineCurrentWorkingDirectory-System-String-'></a>
 ### DetermineCurrentWorkingDirectory(folder) `method`
 
 ##### Summary
 
-Determines the current working directory, optionally using a specified `folder`.
+Determines the current working directory, optionally using a specified
+`folder`.
 
 ##### Returns
 
-The effective working directory path, with trailing backslashes removed. If `folder` is null or empty, the current directory of the application is returned.
+The effective working directory path, with trailing backslashes
+removed. If `folder` is null or empty, the current directory
+of the application is returned.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| folder | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Optional.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing the fully-qualified pathname of a folder to use as the working directory for spawning a process.
+| folder | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Optional.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing
+the fully-qualified pathname of a folder to use as the working directory for
+spawning a process.
 
 
 
-If this parameter is `null`, blank, or the [Empty](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String.Empty 'System.String.Empty') value, the method returns the current directory of the application. |
+If this parameter is `null`, blank, or the
+[Empty](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String.Empty 'System.String.Empty') value, the method returns the current
+directory of the application. |
 
 ##### Remarks
 
-This method logs informational and error messages during its execution.
+This method logs informational and error messages during its
+execution.
 
 
 
-If an exception occurs, it logs the exception details and defaults to returning the current directory.
+If an exception occurs, it logs the exception details and defaults to returning
+the current directory.
 
 <a name='M-xyLOGIX-Core-Common-Run-DoesFileExist-System-String-'></a>
 ### DoesFileExist(pathnamne) `method`
 
 ##### Summary
 
-Determines whether the file having the specified `pathnamne` exists on the file system.
+Determines whether the file having the specified
+`pathnamne` exists on the file system.
 
 ##### Returns
 
-`true` if the file having the specified `pathnamne` exists, `false` otherwwise.
+`true` if the file having the specified
+`pathnamne` exists, `false` otherwwise.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| pathnamne | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that contains the fully-qualified pathname of a file that is to be searched for. |
+| pathnamne | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that
+contains the fully-qualified pathname of a file that is to be searched for. |
 
 <a name='M-xyLOGIX-Core-Common-Run-ResolveExeOnPath-System-String-'></a>
 ### ResolveExeOnPath(pathname) `method`
 
 ##### Summary
 
-Attempts to resolve `pathname` to a fully-qualified file on the current `PATH`.
+Attempts to resolve `pathname` to a fully-qualified
+file on the current `PATH`.
 
 ##### Returns
 
-The resolved, fully-qualified path when the file is found; otherwise the original `pathname`.
+The resolved, fully-qualified path when the file is found; otherwise
+the original `pathname`.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| pathname | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Command name exactly as supplied by the caller (e.g. `git`, `git.exe`, `myTool.cmd`). |
+| pathname | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Command name exactly as supplied by the caller (e.g.
+`git`, `git.exe`, `myTool.cmd`). |
 
 ##### Remarks
 
-* Accepts executables with any of the four legacy extensions ( `.bat`, `.cmd`, `.com`, `.pif`) or `.exe`. * When no extension is supplied, `.exe` is assumed. * Returns the original `pathname` if a match is not found.
+* Accepts executables with any of the four legacy extensions (
+`.bat`, `.cmd`, `.com`, `.pif`) or `.exe`. * When no
+extension is supplied, `.exe` is assumed. * Returns the original
+`pathname` if a match is not found.
 
 <a name='M-xyLOGIX-Core-Common-Run-SplitExeAndArgs-System-String,System-String@,System-String@-'></a>
 ### SplitExeAndArgs(command,exePath,arguments) `method`
 
 ##### Summary
 
-Splits the specified `command` into an executable path and its argument(s).
+Splits the specified `command` into an executable
+path and its argument(s).
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing the command to be executed. |
-| exePath | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that receives the fully-qualified pathname of the executable. |
-| arguments | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that receives the argument(s) that are assumed to have been passed to the target executable. |
+| command | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') containing
+the command to be executed. |
+| exePath | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | (Required.) A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that
+receives the fully-qualified pathname of the executable. |
+| arguments | [System.String@](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String@ 'System.String@') | A [String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') that receives the
+argument(s) that are assumed to have been passed to the target executable. |
