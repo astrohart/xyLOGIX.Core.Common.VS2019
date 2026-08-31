@@ -21,14 +21,19 @@ xyLOGIX.Core.Common.Params.Factories
 
 ##### Summary
 
-Creates new instance(s) of object(s) that implement the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface, and returns references to them.
+Creates new instance(s) of object(s) that implement the
+[IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface, and
+returns references to them.
 
 <a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-#cctor'></a>
 ### #cctor() `method`
 
 ##### Summary
 
-Initializes static data or performs actions that need to be performed once only for the [MakeNewActionParams](#T-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams') class.
+Initializes `static` data or performs actions that
+need to be performed once only for the
+[MakeNewActionParams](#T-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams 'xyLOGIX.Core.Common.Params.Factories.MakeNewActionParams')
+class.
 
 ##### Parameters
 
@@ -36,28 +41,40 @@ This method has no parameters.
 
 ##### Remarks
 
-This constructor is called automatically prior to the first instance being created or before any static members are referenced.
+This constructor is called automatically prior to the first instance
+being created or before any `static` members are referenced.
 
 
 
-We've decorated this constructor with the `[Log(AttributeExclude = true)]` attribute in order to simplify the logging output.
+We've decorated this constructor with the `[Log(AttributeExclude = true)]`
+attribute in order to simplify the logging output.
 
 <a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-DynamicInvoke-xyLOGIX-Core-Common-Params-Interfaces-IActionParams-'></a>
 ### DynamicInvoke(self) `method`
 
 ##### Summary
 
-Dynamically invokes (late-bound) the method represented by the current delegate.
+Dynamically invokes (late-bound) the method represented by the current
+delegate.
 
 ##### Returns
 
-`null` if the `self` parameter or the [Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action') property property of the `self` parameter is set to a `null` reference, or if the [Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action') returns `void`; otherwise, a reference to the data returned by the code specified by the [Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action') property.
+`null` if the `self` parameter or
+the [Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action')
+property property of the `self` parameter is set to a
+`null` reference, or if the
+[Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action') returns
+`void`; otherwise, a reference to the data returned by the code specified
+by the [Action](#P-Core-Common-Params-Interfaces-IActionParams-Action 'Core.Common.Params.Interfaces.IActionParams.Action')
+property.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| self | [xyLOGIX.Core.Common.Params.Interfaces.IActionParams](#T-xyLOGIX-Core-Common-Params-Interfaces-IActionParams 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams') | (Required.) Reference to an instance of an object that implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface. |
+| self | [xyLOGIX.Core.Common.Params.Interfaces.IActionParams](#T-xyLOGIX-Core-Common-Params-Interfaces-IActionParams 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams') | (Required.) Reference to an instance of an object that
+implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams')
+interface. |
 
 <a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-For-System-Delegate-'></a>
 ### For(action) `method`
@@ -66,31 +83,39 @@ Dynamically invokes (late-bound) the method represented by the current delegate.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) Reference to an instance of [Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that should be invoked. Reference to the same instance of the object that called this method, for fluent use. |
+| action | [System.Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') | (Required.) Reference to an instance of
+[Delegate](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Delegate 'System.Delegate') that should be invoked. Reference to the same
+instance of the object that called this method, for fluent use. |
 
 <a name='M-xyLOGIX-Core-Common-Params-Factories-MakeNewActionParams-WithArguments-xyLOGIX-Core-Common-Params-Interfaces-IActionParams,System-Object[]-'></a>
 ### WithArguments(self,arguments) `method`
 
 ##### Summary
 
-Initializes the value of the [Args](#P-Core-Common-Params-Interfaces-IActionParams-Args 'Core.Common.Params.Interfaces.IActionParams.Args') property.
+Initializes the value of the
+[Args](#P-Core-Common-Params-Interfaces-IActionParams-Args 'Core.Common.Params.Interfaces.IActionParams.Args') property.
 
 ##### Parameters
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| self | [xyLOGIX.Core.Common.Params.Interfaces.IActionParams](#T-xyLOGIX-Core-Common-Params-Interfaces-IActionParams 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams') | (Required.) Reference to an instance of an object that implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams') interface. |
-| arguments | [System.Object[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object[] 'System.Object[]') | (Required.) Array of references to objects that should be passed when the delegate is invoked. |
+| self | [xyLOGIX.Core.Common.Params.Interfaces.IActionParams](#T-xyLOGIX-Core-Common-Params-Interfaces-IActionParams 'xyLOGIX.Core.Common.Params.Interfaces.IActionParams') | (Required.) Reference to an instance of an object that
+implements the [IActionParams](#T-Core-Common-Params-Interfaces-IActionParams 'Core.Common.Params.Interfaces.IActionParams')
+interface. |
+| arguments | [System.Object[]](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object[] 'System.Object[]') | (Required.) Array of references to objects that should
+be passed when the delegate is invoked. |
 
 ##### Exceptions
 
 | Name | Description |
 | ---- | ----------- |
-| [System.ArgumentNullException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentNullException 'System.ArgumentNullException') | Thrown if the required parameter, `self`, is passed a `null` value. |
+| [System.ArgumentNullException](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ArgumentNullException 'System.ArgumentNullException') | Thrown if the required
+parameter, `self`, is passed a `null` value. |
 
 ##### Remarks
 
-If no `arguments` are passed to this method, then the method does nothing.
+If no `arguments` are passed to this method, then
+the method does nothing.
 
 <a name='T-xyLOGIX-Core-Common-Params-Factories-Properties-Resources'></a>
 ## Resources `type`
